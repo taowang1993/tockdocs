@@ -25,17 +25,6 @@ PATTERNS=(
   'key-[a-zA-Z0-9]{32,}'           # Generic
 )
 
-# Allowed files (never flagged)
-ALLOWED=(
-  '\.env$'          # local env files
-  '\.env\.'         # env variant files
-  '\.example$'      # example files
-  '\.lock$'         # lock files
-  '\.test\.'        # test fixtures
-  '\.spec\.'        # test fixtures
-  '__snapshots__'   # snapshots
-)
-
 echo "==> Checking staged files for leaked API keys..."
 
 FAILED=0
@@ -47,15 +36,10 @@ if [ -z "$STAGED_FILES" ]; then
 fi
 
 while IFS= read -r file; do
-  # Skip allowed files
-  skip=0
-  for pattern in "${ALLOWED[@]}"; do
-    if echo "$file" | grep -qE "$pattern"; then
-      skip=1
-      break
-    fi
-  done
-  [ "$skip" -eq 1 ] && continue
+  # Only skip .env files (gitignored, may be force-added)
+  if echo "$file" | grep -qE '\.env(\.[a-zA-Z0-9_-]+)?$'; then
+    continue
+  fi
 
   # Check each pattern
   for secret_pattern in "${PATTERNS[@]}"; do
