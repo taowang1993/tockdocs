@@ -1,0 +1,67 @@
+{
+  "common": {
+    "or": "یا",
+    "error": {
+      "title": "صفحہ نہیں ملا",
+      "description": "ہمیں افسوس ہے، لیکن آپ جو صفحہ تلاش کر رہے ہیں وہ موجود نہیں ہے۔"
+    }
+  },
+  "search": {
+    "knowledgeBases": "",
+    "knowledgeBasesPlaceholder": ""
+  },
+  "docs": {
+    "copy": {
+      "page": "صفحہ کاپی کریں",
+      "link": "Markdown صفحہ کاپی کریں",
+      "view": "Markdown کے طور پر دیکھیں",
+      "gpt": "ChatGPT میں کھولیں",
+      "claude": "Claude میں کھولیں"
+    },
+    "links": "کمیونٹی",
+    "links-ui": "Nuxt UI docs",
+    "links-content": "Nuxt Content docs",
+    "links-studio": "Nuxt Studio docs",
+    "toc": "اس صفحے پر",
+    "menu": "مینو",
+    "report": "مسئلہ کی اطلاع دیں",
+    "edit": "اس صفحے کو ترمیم کریں"
+  },
+  "logo": {
+    "copyLogo": "لوگو کاپی کریں",
+    "downloadLogo": "لوگو ڈاؤن لوڈ کریں",
+    "brandAssets": "برانڈ اثاثے",
+    "logoCopied": "لوگو کاپی ہو گیا",
+    "logoDownloaded": "لوگو ڈاؤن لوڈ ہو گیا",
+    "copyLogoFailed": "لوگو کاپی نہیں ہو سکا"
+  },
+  "assistant": {
+    "title": "AI سے پوچھیں۔",
+    "panelTitle": "AI سے پوچھیں۔",
+    "greeting": "How can I help you?",
+    "placeholder": "ایک سوال پوچھیں...",
+    "tooltip": "AI سے ایک سوال پوچھیں۔",
+    "tryAsking": "ایک سوال پوچھنے کی کوشش کریں۔",
+    "askAnything": "کچھ بھی پوچھو...",
+    "clearChat": "چیٹ صاف کریں۔",
+    "close": "بند",
+    "expand": "پھیلائیں۔",
+    "collapse": "سمٹنا",
+    "thinking": "سوچ رہا ہے...",
+    "askMeAnything": "کچھ بھی پوچھو",
+    "askMeAnythingDescription": "دستاویزات کو نیویگیٹ کرنے، تصورات کو سمجھنے اور جوابات تلاش کرنے میں مدد حاصل کریں۔",
+    "faq": "اکثر پوچھے گئے سوالات",
+    "chatCleared": "ریفریش پر چیٹ صاف ہو جاتی ہے۔",
+    "lineBreak": "لائن بریک",
+    "explainWithAi": "AI کے ساتھ وضاحت کریں۔",
+    "toolListPages": "درج دستاویزات کے صفحات",
+    "toolReadPage": "پڑھیں",
+    "loading": {
+      "searching": "دستاویزات کی تلاش",
+      "reading": "دستاویزات کے ذریعے پڑھنا",
+      "analyzing": "مواد کا تجزیہ",
+      "finding": "بہترین جواب تلاش کرنا",
+      "finished": "ذرائع استعمال کیے گئے۔"
+    }
+  }
+}

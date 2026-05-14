@@ -1,0 +1,71 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    permissions:
+      contents: read
+      pull-requests: read
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [22]
+
+    env:
+      NUXT_GITHUB_TOKEN: ${{ secrets.NUXT_GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install node
+        uses: actions/setup-node@v5
+        with:
+          node-version: ${{ matrix.node }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Prepare
+        run: pnpm run dev:prepare
+
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Check i18n
+        run: pnpm run check:i18n
+
+      - name: Check MDC source
+        run: pnpm run check:mdc-source
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      - name: Build CLI
+        run: pnpm run build
+        working-directory: ./cli
+
+      - name: Publish CLI and Layer
+        if: github.repository == 'taowang1993/tockdocs'
+        continue-on-error: true
+        run: |
+          if [ "$GITHUB_REPOSITORY" != "taowang1993/tockdocs" ]; then
+            echo "Skipping pkg-pr-new publish outside taowang1993/tockdocs"
+            exit 0
+          fi
+
+          npx pkg-pr-new publish --compact './cli' './layer'

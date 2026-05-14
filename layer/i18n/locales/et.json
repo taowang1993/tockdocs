@@ -1,0 +1,67 @@
+{
+  "common": {
+    "or": "või",
+    "error": {
+      "title": "Lehekülge ei leitud",
+      "description": "Vabandame, kuid otsitavat lehekülge ei leitud."
+    }
+  },
+  "search": {
+    "knowledgeBases": "",
+    "knowledgeBasesPlaceholder": ""
+  },
+  "docs": {
+    "copy": {
+      "page": "Kopeeri lehekülg",
+      "link": "Kopeeri Markdown lehekülg",
+      "view": "Vaata Markdownina",
+      "gpt": "Ava ChatGPT-s",
+      "claude": "Ava Claude'is"
+    },
+    "links": "Kogukond",
+    "links-ui": "Nuxt UI docs",
+    "links-content": "Nuxt Content docs",
+    "links-studio": "Nuxt Studio docs",
+    "toc": "Sellel lehel",
+    "menu": "Menüü",
+    "report": "Teata probleemist",
+    "edit": "Muuda seda lehekülge"
+  },
+  "logo": {
+    "copyLogo": "Kopeeri logo",
+    "downloadLogo": "Laadi logo alla",
+    "brandAssets": "Brändimaterjalid",
+    "logoCopied": "Logo kopeeritud",
+    "logoDownloaded": "Logo allalaaditud",
+    "copyLogoFailed": "Logo kopeerimine ebaõnnestus"
+  },
+  "assistant": {
+    "title": "Küsi tehisintellekti",
+    "panelTitle": "Küsi tehisintellekti",
+    "greeting": "How can I help you?",
+    "placeholder": "Esita küsimus...",
+    "tooltip": "Esita tehisintellektile küsimus",
+    "tryAsking": "Proovi esitada küsimus",
+    "askAnything": "Küsi ükskõik mida...",
+    "clearChat": "Tühjenda vestlus",
+    "close": "Sulge",
+    "expand": "Laienda",
+    "collapse": "Ahenda",
+    "thinking": "Mõtlen...",
+    "askMeAnything": "Küsi ükskõik mida",
+    "askMeAnythingDescription": "Saa abi dokumentatsioonis navigeerimisel, kontseptsioonide mõistmisel ja vastuste leidmisel.",
+    "faq": "KKK",
+    "chatCleared": "Vestlus kustutatakse värskendamisel",
+    "lineBreak": "Reavahetus",
+    "explainWithAi": "Selgita tehisintellektiga",
+    "toolListPages": "Loetletud dokumentatsiooni lehed",
+    "toolReadPage": "Loe",
+    "loading": {
+      "searching": "Dokumentatsiooni otsimine",
+      "reading": "Dokumentide lugemine",
+      "analyzing": "Sisu analüüsimine",
+      "finding": "Parima vastuse leidmine",
+      "finished": "Kasutatud allikad"
+    }
+  }
+}

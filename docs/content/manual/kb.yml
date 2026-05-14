@@ -1,0 +1,11 @@
+id: manual
+title: Manual
+description: Core TockDocs manual covering configuration, authoring, AI tooling, and deployment.
+icon: i-lucide-book-open
+defaultLocale: en
+entry: getting-started/installation
+locales:
+  - en
+  - zh
+assistantName: Manual Assistant
+searchPlaceholder: Search manual docs...

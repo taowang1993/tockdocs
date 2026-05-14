@@ -1,0 +1,13 @@
+{
+  "name": "playground",
+  "scripts": {
+    "dev": "nuxt dev --extends tockdocs",
+    "build": "nuxt build --extends tockdocs"
+  },
+  "dependencies": {
+    "@takumi-rs/core": "^1.0.15",
+    "tockdocs": "latest",
+    "better-sqlite3": "^12.5.0",
+    "nuxt": "^4.3.1"
+  }
+}

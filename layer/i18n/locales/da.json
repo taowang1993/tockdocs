@@ -1,0 +1,67 @@
+{
+  "common": {
+    "or": "eller",
+    "error": {
+      "title": "Side ikke fundet",
+      "description": "Vi beklager, men siden du leder efter kunne ikke findes."
+    }
+  },
+  "search": {
+    "knowledgeBases": "",
+    "knowledgeBasesPlaceholder": ""
+  },
+  "docs": {
+    "copy": {
+      "page": "Kopier side",
+      "link": "Kopier Markdown side",
+      "view": "Vis som Markdown",
+      "gpt": "Åbn i ChatGPT",
+      "claude": "Åbn i Claude"
+    },
+    "links": "Fællesskab",
+    "links-ui": "Nuxt UI docs",
+    "links-content": "Nuxt Content docs",
+    "links-studio": "Nuxt Studio docs",
+    "toc": "På denne side",
+    "menu": "Menu",
+    "report": "Rapporter et problem",
+    "edit": "Rediger denne side"
+  },
+  "logo": {
+    "copyLogo": "Kopiér logo",
+    "downloadLogo": "Download logo",
+    "brandAssets": "Brandmaterialer",
+    "logoCopied": "Logo kopieret",
+    "logoDownloaded": "Logo downloadet",
+    "copyLogoFailed": "Kunne ikke kopiere logo"
+  },
+  "assistant": {
+    "title": "Spørg AI",
+    "panelTitle": "Spørg AI",
+    "greeting": "How can I help you?",
+    "placeholder": "Stil et spørgsmål...",
+    "tooltip": "Stil AI et spørgsmål",
+    "tryAsking": "Prøv at stille et spørgsmål",
+    "askAnything": "Spørg om hvad som helst...",
+    "clearChat": "Ryd chat",
+    "close": "Luk",
+    "expand": "Udvid",
+    "collapse": "Skjul",
+    "thinking": "Tænker...",
+    "askMeAnything": "Spørg om hvad som helst",
+    "askMeAnythingDescription": "Få hjælp til at navigere i dokumentationen, forstå begreber og finde svar.",
+    "faq": "FAQ",
+    "chatCleared": "Chat ryddes ved opdatering",
+    "lineBreak": "Linjeskift",
+    "explainWithAi": "Forklar med AI",
+    "toolListPages": "Opførte dokumentationssider",
+    "toolReadPage": "Læs",
+    "loading": {
+      "searching": "Søgning i dokumentationen",
+      "reading": "Gennemlæsning af dokumenterne",
+      "analyzing": "Analyse af indholdet",
+      "finding": "Find det bedste svar",
+      "finished": "Anvendte kilder"
+    }
+  }
+}

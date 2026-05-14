@@ -1,0 +1,67 @@
+{
+  "common": {
+    "or": "oder",
+    "error": {
+      "title": "Säit net fonnt",
+      "description": "Et deet ons leed, awer d'Säit déi Dir sicht gëtt et net."
+    }
+  },
+  "search": {
+    "knowledgeBases": "",
+    "knowledgeBasesPlaceholder": ""
+  },
+  "docs": {
+    "copy": {
+      "page": "Säit kopéieren",
+      "link": "Markdown Säit kopéieren",
+      "view": "Als Markdown kucken",
+      "gpt": "An ChatGPT opmaachen",
+      "claude": "An Claude opmaachen"
+    },
+    "links": "Gemeinschaft",
+    "links-ui": "Nuxt UI docs",
+    "links-content": "Nuxt Content docs",
+    "links-studio": "Nuxt Studio docs",
+    "toc": "Op dëser Säit",
+    "menu": "Menü",
+    "report": "Problem mellen",
+    "edit": "Dës Säit änneren"
+  },
+  "logo": {
+    "copyLogo": "Logo kopéieren",
+    "downloadLogo": "Logo eroflueden",
+    "brandAssets": "Marken-Materialien",
+    "logoCopied": "Logo kopéiert",
+    "logoDownloaded": "Logo erofgelueden",
+    "copyLogoFailed": "Logo konnt net kopéiert ginn"
+  },
+  "assistant": {
+    "title": "Frot d'AI",
+    "panelTitle": "Frot d'AI",
+    "greeting": "How can I help you?",
+    "placeholder": "Stell eng Fro...",
+    "tooltip": "Stell der AI eng Fro",
+    "tryAsking": "Probéieren eng Fro ze stellen",
+    "askAnything": "Frot iergendeppes...",
+    "clearChat": "Chat läschen",
+    "close": "Zoumaachen",
+    "expand": "Erweideren",
+    "collapse": "Zesummeklappen",
+    "thinking": "Denken...",
+    "askMeAnything": "Frot alles",
+    "askMeAnythingDescription": "Kritt Hëllef fir an der Dokumentatioun ze navigéieren, Konzepter ze verstoen an Äntwerten ze fannen.",
+    "faq": "FAQ",
+    "chatCleared": "Chat gëtt op Erfrëschung gereinegt",
+    "lineBreak": "Zeilepaus",
+    "explainWithAi": "Erklär mat AI",
+    "toolListPages": "Opgelëschte Dokumentatiounssäiten",
+    "toolReadPage": "Liesen",
+    "loading": {
+      "searching": "D'Dokumentatioun gëtt duerchsicht",
+      "reading": "D'Dokumenter ginn duerchgelies",
+      "analyzing": "Den Inhalt gëtt analyséiert",
+      "finding": "Déi bescht Äntwert gëtt fonnt",
+      "finished": "Benotzte Quellen"
+    }
+  }
+}

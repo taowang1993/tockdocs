@@ -1,0 +1,67 @@
+{
+  "common": {
+    "or": "ή",
+    "error": {
+      "title": "Η σελίδα δεν βρέθηκε",
+      "description": "Λυπούμαστε, αλλά η σελίδα που αναζητάτε δεν υπάρχει."
+    }
+  },
+  "search": {
+    "knowledgeBases": "",
+    "knowledgeBasesPlaceholder": ""
+  },
+  "docs": {
+    "copy": {
+      "page": "Αντιγραφή σελίδας",
+      "link": "Αντιγραφή σελίδας Markdown",
+      "view": "Προβολή ως Markdown",
+      "gpt": "Άνοιγμα στο ChatGPT",
+      "claude": "Άνοιγμα στο Claude"
+    },
+    "links": "Κοινότητα",
+    "links-ui": "Nuxt UI docs",
+    "links-content": "Nuxt Content docs",
+    "links-studio": "Nuxt Studio docs",
+    "toc": "Σε αυτή τη σελίδα",
+    "menu": "Μενού",
+    "report": "Αναφορά προβλήματος",
+    "edit": "Επεξεργασία αυτής της σελίδας"
+  },
+  "logo": {
+    "copyLogo": "Αντιγραφή λογοτύπου",
+    "downloadLogo": "Λήψη λογοτύπου",
+    "brandAssets": "Υλικά επωνυμίας",
+    "logoCopied": "Το λογότυπο αντιγράφηκε",
+    "logoDownloaded": "Το λογότυπο κατέβηκε",
+    "copyLogoFailed": "Αποτυχία αντιγραφής λογοτύπου"
+  },
+  "assistant": {
+    "title": "Ερώτηση στην τεχνητή νοημοσύνη",
+    "panelTitle": "Ερώτηση στην τεχνητή νοημοσύνη",
+    "greeting": "How can I help you?",
+    "placeholder": "Κάντε μια ερώτηση...",
+    "tooltip": "Κάντε μια ερώτηση στην τεχνητή νοημοσύνη",
+    "tryAsking": "Δοκιμάστε να κάνετε μια ερώτηση",
+    "askAnything": "Ρωτήστε οτιδήποτε...",
+    "clearChat": "Εκκαθάριση συνομιλίας",
+    "close": "Κλείσιμο",
+    "expand": "Ανάπτυξη",
+    "collapse": "Σύμπτυξη",
+    "thinking": "Σκέψη...",
+    "askMeAnything": "Ρωτήστε οτιδήποτε",
+    "askMeAnythingDescription": "Λάβετε βοήθεια για την πλοήγηση στην τεκμηρίωση, την κατανόηση των εννοιών και την εύρεση απαντήσεων.",
+    "faq": "Συχνές Ερωτήσεις",
+    "chatCleared": "Η συνομιλία εκκαθαρίζεται κατά την ανανέωση",
+    "lineBreak": "Διακοπή γραμμής",
+    "explainWithAi": "Εξηγήστε με τεχνητή νοημοσύνη",
+    "toolListPages": "Καταχωρημένες σελίδες τεκμηρίωσης",
+    "toolReadPage": "Ανάγνωση",
+    "loading": {
+      "searching": "Αναζήτηση στην τεκμηρίωση",
+      "reading": "Ανάγνωση των εγγράφων",
+      "analyzing": "Ανάλυση του περιεχομένου",
+      "finding": "Βρίσκοντας την καλύτερη απάντηση",
+      "finished": "Πηγές που χρησιμοποιήθηκαν"
+    }
+  }
+}

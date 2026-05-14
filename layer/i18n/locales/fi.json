@@ -1,0 +1,67 @@
+{
+  "common": {
+    "or": "tai",
+    "error": {
+      "title": "Sivua ei löytynyt",
+      "description": "Pahoittelut, etsimääsi sivua ei löytynyt."
+    }
+  },
+  "search": {
+    "knowledgeBases": "",
+    "knowledgeBasesPlaceholder": ""
+  },
+  "docs": {
+    "copy": {
+      "page": "Kopioi sivu",
+      "link": "Kopioi Markdown-sivu",
+      "view": "Näytä Markdownina",
+      "gpt": "Avaa ChatGPT:ssä",
+      "claude": "Avaa Claudessa"
+    },
+    "links": "Yhteisö",
+    "links-ui": "Nuxt UI docs",
+    "links-content": "Nuxt Content docs",
+    "links-studio": "Nuxt Studio docs",
+    "toc": "Tällä sivulla",
+    "menu": "Valikko",
+    "report": "Ilmoita ongelmasta",
+    "edit": "Muokkaa tätä sivua"
+  },
+  "logo": {
+    "copyLogo": "Kopioi logo",
+    "downloadLogo": "Lataa logo",
+    "brandAssets": "Brändimateriaalit",
+    "logoCopied": "Logo kopioitu",
+    "logoDownloaded": "Logo ladattu",
+    "copyLogoFailed": "Logon kopiointi epäonnistui"
+  },
+  "assistant": {
+    "title": "Kysy tekoälyltä",
+    "panelTitle": "Kysy tekoälyltä",
+    "greeting": "How can I help you?",
+    "placeholder": "Esitä kysymys...",
+    "tooltip": "Esitä tekoälylle kysymys",
+    "tryAsking": "Kokeile kysymyksen esittämistä",
+    "askAnything": "Kysy mitä tahansa...",
+    "clearChat": "Tyhjennä chat",
+    "close": "Sulje",
+    "expand": "Laajenna",
+    "collapse": "Pienennä",
+    "thinking": "Ajatellaan...",
+    "askMeAnything": "Kysy mitä tahansa",
+    "askMeAnythingDescription": "Saat apua dokumentaatiossa navigointiin, käsitteiden ymmärtämiseen ja vastausten löytämiseen.",
+    "faq": "UKK",
+    "chatCleared": "Keskustelu tyhjennetään päivitettäessä",
+    "lineBreak": "Rivinvaihto",
+    "explainWithAi": "Selitä tekoälyllä",
+    "toolListPages": "Luetellut dokumentaatiosivut",
+    "toolReadPage": "Lue",
+    "loading": {
+      "searching": "Dokumentaation hakeminen",
+      "reading": "Asiakirjojen lukeminen",
+      "analyzing": "Sisällön analysointi",
+      "finding": "Parhaan vastauksen löytäminen",
+      "finished": "Käytetyt lähteet"
+    }
+  }
+}

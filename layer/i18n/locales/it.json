@@ -1,0 +1,67 @@
+{
+  "common": {
+    "or": "o",
+    "error": {
+      "title": "Pagina non trovata",
+      "description": "Ci scusiamo, ma sembra che questa pagina non sia disponibile."
+    }
+  },
+  "search": {
+    "knowledgeBases": "",
+    "knowledgeBasesPlaceholder": ""
+  },
+  "docs": {
+    "copy": {
+      "page": "Copia pagina",
+      "link": "Copia pagina Markdown",
+      "view": "Visualizza come Markdown",
+      "gpt": "Apri in ChatGPT",
+      "claude": "Apri in Claude"
+    },
+    "links": "Comunità",
+    "links-ui": "Nuxt UI docs",
+    "links-content": "Nuxt Content docs",
+    "links-studio": "Nuxt Studio docs",
+    "toc": "In questa pagina",
+    "menu": "Menu",
+    "report": "Segnala un problema",
+    "edit": "Modifica questa pagina"
+  },
+  "logo": {
+    "copyLogo": "Copia logo",
+    "downloadLogo": "Scarica logo",
+    "brandAssets": "Risorse del brand",
+    "logoCopied": "Logo copiato",
+    "logoDownloaded": "Logo scaricato",
+    "copyLogoFailed": "Impossibile copiare il logo"
+  },
+  "assistant": {
+    "title": "Chiedi all'AI",
+    "panelTitle": "Chiedi all'AI",
+    "greeting": "How can I help you?",
+    "placeholder": "Fai una domanda...",
+    "tooltip": "Fai una domanda all'IA",
+    "tryAsking": "Prova a fare una domanda",
+    "askAnything": "Chiedi qualsiasi cosa...",
+    "clearChat": "Cancella chat",
+    "close": "Chiudi",
+    "expand": "Espandi",
+    "collapse": "Comprimi",
+    "thinking": "Sto pensando...",
+    "askMeAnything": "Chiedi qualsiasi cosa",
+    "askMeAnythingDescription": "Ricevi assistenza per esplorare la documentazione, comprendere i concetti e trovare risposte.",
+    "faq": "Domande frequenti",
+    "chatCleared": "La chat viene cancellata all'aggiornamento",
+    "lineBreak": "Interruzione di riga",
+    "explainWithAi": "Spiega con l'IA",
+    "toolListPages": "Pagine di documentazione elencate",
+    "toolReadPage": "Leggi",
+    "loading": {
+      "searching": "Ricerca della documentazione",
+      "reading": "Leggere i documenti",
+      "analyzing": "Analizzare il contenuto",
+      "finding": "Trovare la risposta migliore",
+      "finished": "Fonti utilizzate"
+    }
+  }
+}

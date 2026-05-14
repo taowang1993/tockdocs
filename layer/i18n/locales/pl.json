@@ -1,0 +1,67 @@
+{
+  "common": {
+    "or": "lub",
+    "error": {
+      "title": "Nie znaleziono strony",
+      "description": "Przepraszamy, ale nie znaleziono tej strony."
+    }
+  },
+  "search": {
+    "knowledgeBases": "",
+    "knowledgeBasesPlaceholder": ""
+  },
+  "docs": {
+    "copy": {
+      "page": "Skopiuj stronę",
+      "link": "Skopiuj stronę Markdown",
+      "view": "Wyświetl jako Markdown",
+      "gpt": "Otwórz w ChatGPT",
+      "claude": "Otwórz w Claude"
+    },
+    "links": "Społeczność",
+    "links-ui": "Nuxt UI docs",
+    "links-content": "Nuxt Content docs",
+    "links-studio": "Nuxt Studio docs",
+    "toc": "Na tej stronie",
+    "menu": "Menu",
+    "report": "Zgłoś problem",
+    "edit": "Edytuj tę stronę"
+  },
+  "logo": {
+    "copyLogo": "Kopiuj logo",
+    "downloadLogo": "Pobierz logo",
+    "brandAssets": "Materiały marki",
+    "logoCopied": "Logo skopiowane",
+    "logoDownloaded": "Logo pobrane",
+    "copyLogoFailed": "Nie udało się skopiować logo"
+  },
+  "assistant": {
+    "title": "Zapytaj SI",
+    "panelTitle": "Zapytaj SI",
+    "greeting": "How can I help you?",
+    "placeholder": "Zadaj pytanie...",
+    "tooltip": "Zadaj AI pytanie",
+    "tryAsking": "Spróbuj zadać pytanie",
+    "askAnything": "Zapytaj o cokolwiek...",
+    "clearChat": "Wyczyść czat",
+    "close": "Zamknij",
+    "expand": "Rozwiń",
+    "collapse": "Zwiń",
+    "thinking": "Zastanawiam się...",
+    "askMeAnything": "Zapytaj o cokolwiek",
+    "askMeAnythingDescription": "Uzyskaj pomoc w poruszaniu się po dokumentacji, zrozumieniu pojęć i znalezieniu odpowiedzi.",
+    "faq": "Często zadawane pytania",
+    "chatCleared": "Czat został wyczyszczony po odświeżeniu",
+    "lineBreak": "Podział wiersza",
+    "explainWithAi": "Wyjaśnij za pomocą sztucznej inteligencji",
+    "toolListPages": "Wymienione strony dokumentacji",
+    "toolReadPage": "Czytaj",
+    "loading": {
+      "searching": "Przeszukiwanie dokumentacji",
+      "reading": "Czytanie dokumentów",
+      "analyzing": "Analizowanie treści",
+      "finding": "Znajdowanie najlepszej odpowiedzi",
+      "finished": "Wykorzystane źródła"
+    }
+  }
+}

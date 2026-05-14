@@ -1,0 +1,13 @@
+{
+  "name": "tockdocs-starter",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build"
+  },
+  "dependencies": {
+    "@takumi-rs/core": "^1.0.15",
+    "tockdocs": "^5.0.0",
+    "better-sqlite3": "^12.6.2",
+    "nuxt": "4.4.2"
+  }
+}

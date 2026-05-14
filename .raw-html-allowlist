@@ -1,0 +1,25 @@
+# Files containing raw HTML that cannot be reasonably replaced with Markdown.
+# Only add entries when the HTML is structurally necessary:
+# - Complex tables with colspan/rowspan and SVG images in cells
+# - <br> inside Markdown table cells for multi-line content
+#
+# Format: one file path per line, relative to the workspace root.
+# Lines starting with # are comments.
+
+# Chemistry KB — complex HTML tables with colspan/rowspan and SVG diagrams
+docs/content/chemistry/zh/01.atomic-structure/1.electron-configuration.md
+docs/content/chemistry/zh/04.organic-chemistry/3.organic-classification.md
+docs/content/chemistry/zh/04.organic-chemistry/5.hydrocarbon-derivatives.md
+docs/content/chemistry/zh/07.chemical-experiments/2.lab-procedures.md
+
+# Chemistry KB — <br> inside Markdown table cells (multi-line cell content)
+docs/content/chemistry/zh/01.atomic-structure/6.periodic-law-inference.md
+docs/content/chemistry/zh/02.interparticle-forces/7.crystal-structures.md
+docs/content/chemistry/zh/04.organic-chemistry/1.organic-research-methods.md
+docs/content/chemistry/zh/04.organic-chemistry/2.organic-structure.md
+docs/content/chemistry/zh/04.organic-chemistry/4.hydrocarbons.md
+docs/content/chemistry/zh/04.organic-chemistry/9.organic-synthesis.md
+docs/content/chemistry/zh/05.chemical-concepts/7.chemistry-stse.md
+docs/content/chemistry/zh/06.elements-compounds/1.sodium-compounds.md
+docs/content/chemistry/zh/06.elements-compounds/6.chlorine-halogens.md
+docs/content/chemistry/zh/06.elements-compounds/7.nitrogen-compounds.md

@@ -1,0 +1,26 @@
+{
+  "name": "tockdocs",
+  "description": "An AI-powered Knowledge Management System.",
+  "type": "module",
+  "scripts": {
+    "build": "pnpm --dir .. run check:mdc-source && NODE_OPTIONS=--max-old-space-size=6144 pnpm --dir .. run layer:prepare && NODE_OPTIONS=--max-old-space-size=6144 nuxt build && pnpm --dir .. run check:content-integrity",
+    "dev": "nuxt dev"
+  },
+  "dependencies": {
+    "@iconify-json/lucide": "^1.2.102",
+    "@iconify-json/simple-icons": "^1.2.79",
+    "@iconify-json/vscode-icons": "^1.2.45",
+    "@nuxt/ui": "^4.7.1",
+    "@nuxtjs/i18n": "^10.2.4",
+    "@takumi-rs/core": "^1.0.15",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
+    "nuxt": "4.4.2",
+    "nuxt-studio": "^1.6.0",
+    "tailwindcss": "^4.2.3",
+    "tockdocs": "workspace:*"
+  },
+  "devDependencies": {
+    "nuxt-skill-hub": "0.0.8"
+  }
+}

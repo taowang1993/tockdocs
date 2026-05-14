@@ -1,0 +1,81 @@
+{
+  "name": "tockdocs-workspace",
+  "description": "Minimal Documentation theme and CLI for shared usage across Nuxt modules",
+  "version": "5.10.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taowang1993/tockdocs.git"
+  },
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "dev": "pnpm run docs:dev",
+    "prepare": "git config core.hooksPath .githooks || true",
+    "layer:prepare": "node scripts/with-env.mjs nuxt prepare layer",
+    "docs:dev": "node scripts/run-dev.mjs docs",
+    "docs:build": "pnpm run check:mdc-source && NODE_OPTIONS=--max-old-space-size=6144 pnpm run layer:prepare && NODE_OPTIONS=--max-old-space-size=6144 node scripts/with-env.mjs nuxt build docs --extends ../layer && pnpm run check:content-integrity",
+    "dev:prepare": "node scripts/with-env.mjs nuxt prepare layer && node scripts/with-env.mjs nuxt prepare docs --extends ../layer && node scripts/with-env.mjs nuxt prepare playground --extends ../layer",
+    "playground:dev": "node scripts/run-dev.mjs playground",
+    "lint": "eslint .",
+    "check:i18n": "node scripts/check-i18n-keys.mjs",
+    "check:mdc-source": "node scripts/check-mdc-source.mjs",
+    "check:mdc-source:staged": "node scripts/check-mdc-source-staged.mjs",
+    "check:content-integrity": "node scripts/check-content-integrity.mjs",
+    "check:translation-parity": "node scripts/check-translation-parity.mjs",
+    "test:mdc-source": "node --test scripts/lib/mdc-source-lint.test.mjs",
+    "test:regression": "tsx --test layer/modules/config.test.ts layer/app/components/app/AppHeader.test.ts layer/modules/css-regression.test.ts layer/modules/landing-spotlight.test.ts layer/modules/assistant/test/gitfs-bash.test.ts layer/modules/assistant-panel-regression.test.ts layer/server/utils/content.test.ts layer/server/utils/index-generator.test.ts docs/app/utils/nuxt-studio-editor-mode.test.ts",
+    "check:assets": "node scripts/check-assets.mjs",
+    "check:raw-html": "node scripts/check-raw-html.mjs",
+    "precommit": "pnpm run check:mdc-source:staged && pnpm run check:raw-html && pnpm run check:i18n && pnpm run lint && pnpm run check:assets && pnpm run dev:prepare",
+    "scan": "pnpm run lint && pnpm run check:i18n && pnpm run check:mdc-source && pnpm run check:raw-html && pnpm run check:assets && pnpm run check:translation-parity && pnpm run typecheck",
+    "scan:deep": "pnpm run scan && pnpm run knip && pnpm run jscpd:layer && pnpm run depcruise",
+    "knip": "knip --no-progress || true",
+    "jscpd:layer": "jscpd --min-tokens 50 --min-lines 5 layer/app/ layer/modules/ layer/server/ || true",
+    "depcruise": "depcruise layer/modules/ || true",
+    "typecheck": "node scripts/with-env.mjs nuxt typecheck layer",
+    "cli:build": "pnpm --dir cli run build",
+    "verify": "pnpm run check:i18n && pnpm run dev:prepare && pnpm run lint && pnpm run typecheck && pnpm run cli:build && pnpm run docs:build",
+    "layer:release": "release-it --config .release-it.layer.json && cd layer && npm publish",
+    "cli:release": "release-it --config .release-it.cli.json && cd cli && npm publish",
+    "release": "pnpm run layer:release && pnpm run cli:release && release-it",
+    "clean": "node scripts/clean.mjs",
+    "clean:full": "pnpm run clean && rm -rf node_modules cli/node_modules docs/node_modules layer/node_modules playground/node_modules analyze cli/dist pnpm-lock.yaml .pnpm-store"
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "^1.15.2",
+    "@nuxt/eslint-config": "^1.15.2",
+    "@release-it/bumper": "^7.0.5",
+    "@release-it/conventional-changelog": "^10.0.6",
+    "dependency-cruiser": "^17.4.0",
+    "eslint": "^10.2.1",
+    "knip": "^6.9.0",
+    "nuxt": "4.4.2",
+    "release-it": "^20.0.0",
+    "typescript": "^6.0.3",
+    "vscode-jsonrpc": "8.2.0",
+    "vscode-languageserver-protocol": "3.17.5",
+    "vscode-languageserver-types": "3.17.5",
+    "vue-tsc": "^3.2.7"
+  },
+  "resolutions": {
+    "unimport": "5.6.0",
+    "better-sqlite3": "12.9.0"
+  },
+  "pnpm": {
+    "packageExtensions": {
+      "@barzhsieh/nuxt-content-mermaid@2.2.3": {
+        "dependencies": {
+          "@braintree/sanitize-url": "7.1.2",
+          "dayjs": "1.11.20"
+        }
+      }
+    }
+  },
+  "packageManager": "pnpm@10.33.0",
+  "dependencies": {
+    "@iconify-json/lucide": "^1.2.102",
+    "@iconify-json/simple-icons": "^1.2.79",
+    "@iconify-json/vscode-icons": "^1.2.45",
+    "@vercel/blob": "^2.3.3"
+  }
+}

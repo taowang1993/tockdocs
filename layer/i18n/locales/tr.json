@@ -1,0 +1,67 @@
+{
+  "common": {
+    "or": "veya",
+    "error": {
+      "title": "Sayfa bulunamadı",
+      "description": "Üzgünüz, bu sayfa bulunamadı."
+    }
+  },
+  "search": {
+    "knowledgeBases": "",
+    "knowledgeBasesPlaceholder": ""
+  },
+  "docs": {
+    "copy": {
+      "page": "Sayfayı kopyala",
+      "link": "Markdown bağlantısını kopyala",
+      "view": "Markdown olarak görüntüle",
+      "gpt": "ChatGPT'de aç",
+      "claude": "Claude'da aç"
+    },
+    "links": "Topluluk",
+    "links-ui": "Nuxt UI docs",
+    "links-content": "Nuxt Content docs",
+    "links-studio": "Nuxt Studio docs",
+    "toc": "Bu sayfada",
+    "menu": "Menü",
+    "report": "Sorun bildir",
+    "edit": "Bu sayfayı düzenle"
+  },
+  "logo": {
+    "copyLogo": "Logoyu kopyala",
+    "downloadLogo": "Logoyu indir",
+    "brandAssets": "Marka materyalleri",
+    "logoCopied": "Logo kopyalandı",
+    "logoDownloaded": "Logo indirildi",
+    "copyLogoFailed": "Logo kopyalanamadı"
+  },
+  "assistant": {
+    "title": "Yapay zekaya sor",
+    "panelTitle": "Yapay zekaya sor",
+    "greeting": "How can I help you?",
+    "placeholder": "Bir soru sorun...",
+    "tooltip": "Yapay zekaya bir soru sorun",
+    "tryAsking": "Bir soru sormayı deneyin",
+    "askAnything": "Her şeyi sor...",
+    "clearChat": "Sohbeti temizle",
+    "close": "Kapat",
+    "expand": "Genişlet",
+    "collapse": "Daralt",
+    "thinking": "Düşünüyorum...",
+    "askMeAnything": "Her şeyi sor",
+    "askMeAnythingDescription": "Belgelerde gezinme, kavramları anlama ve yanıt bulma konusunda yardım alın.",
+    "faq": "SSS",
+    "chatCleared": "Sohbet yenilendiğinde temizlenir",
+    "lineBreak": "Satır sonu",
+    "explainWithAi": "Yapay zeka ile açıklayın",
+    "toolListPages": "Listelenen dokümantasyon sayfaları",
+    "toolReadPage": "Oku",
+    "loading": {
+      "searching": "Dokümantasyonda arama",
+      "reading": "Dokümanlar okunuyor",
+      "analyzing": "İçerik analiz ediliyor",
+      "finding": "En iyi yanıt bulunuyor",
+      "finished": "Kullanılan kaynaklar"
+    }
+  }
+}

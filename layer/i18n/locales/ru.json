@@ -1,0 +1,67 @@
+{
+  "common": {
+    "or": "или",
+    "error": {
+      "title": "Страница не найдена",
+      "description": "Извините, но запрашиваемая страница не найдена."
+    }
+  },
+  "search": {
+    "knowledgeBases": "",
+    "knowledgeBasesPlaceholder": ""
+  },
+  "docs": {
+    "copy": {
+      "page": "Копировать страницу",
+      "link": "Копировать Markdown-страницу",
+      "view": "Просмотреть как Markdown",
+      "gpt": "Открыть в ChatGPT",
+      "claude": "Открыть в Claude"
+    },
+    "links": "Сообщество",
+    "links-ui": "Nuxt UI docs",
+    "links-content": "Nuxt Content docs",
+    "links-studio": "Nuxt Studio docs",
+    "toc": "На этой странице",
+    "menu": "Меню",
+    "report": "Сообщить о проблеме",
+    "edit": "Редактировать эту страницу"
+  },
+  "logo": {
+    "copyLogo": "Копировать логотип",
+    "downloadLogo": "Скачать логотип",
+    "brandAssets": "Материалы бренда",
+    "logoCopied": "Логотип скопирован",
+    "logoDownloaded": "Логотип скачан",
+    "copyLogoFailed": "Не удалось скопировать логотип"
+  },
+  "assistant": {
+    "title": "Спросите ИИ",
+    "panelTitle": "Спросите ИИ",
+    "greeting": "How can I help you?",
+    "placeholder": "Задайте вопрос...",
+    "tooltip": "Задайте вопрос ИИ",
+    "tryAsking": "Попробуйте задать вопрос",
+    "askAnything": "Спросите что угодно...",
+    "clearChat": "Очистить чат",
+    "close": "Закрыть",
+    "expand": "Развернуть",
+    "collapse": "Свернуть",
+    "thinking": "Думаю...",
+    "askMeAnything": "Спросите что угодно",
+    "askMeAnythingDescription": "Получите помощь в навигации по документации, понимании концепций и поиске ответов.",
+    "faq": "Часто задаваемые вопросы",
+    "chatCleared": "Чат очищается при обновлении",
+    "lineBreak": "Разрыв строки",
+    "explainWithAi": "Объясните с помощью ИИ",
+    "toolListPages": "Перечисленные страницы документации",
+    "toolReadPage": "Читать",
+    "loading": {
+      "searching": "Поиск документации",
+      "reading": "Чтение документации",
+      "analyzing": "Анализ контента",
+      "finding": "Поиск лучшего ответа",
+      "finished": "Использованные источники"
+    }
+  }
+}

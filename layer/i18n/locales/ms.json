@@ -1,0 +1,67 @@
+{
+  "common": {
+    "or": "atau",
+    "error": {
+      "title": "Halaman tidak dijumpai",
+      "description": "Kami mohon maaf, tetapi halaman yang anda cari tidak dapat dijumpai."
+    }
+  },
+  "search": {
+    "knowledgeBases": "",
+    "knowledgeBasesPlaceholder": ""
+  },
+  "docs": {
+    "copy": {
+      "page": "Salin halaman",
+      "link": "Salin halaman Markdown",
+      "view": "Lihat sebagai Markdown",
+      "gpt": "Buka di ChatGPT",
+      "claude": "Buka di Claude"
+    },
+    "links": "Komuniti",
+    "links-ui": "Nuxt UI docs",
+    "links-content": "Nuxt Content docs",
+    "links-studio": "Nuxt Studio docs",
+    "toc": "Dalam halaman ini",
+    "menu": "Menu",
+    "report": "Laporkan masalah",
+    "edit": "Edit halaman ini"
+  },
+  "logo": {
+    "copyLogo": "Salin logo",
+    "downloadLogo": "Muat turun logo",
+    "brandAssets": "Aset jenama",
+    "logoCopied": "Logo disalin",
+    "logoDownloaded": "Logo dimuat turun",
+    "copyLogoFailed": "Gagal menyalin logo"
+  },
+  "assistant": {
+    "title": "Tanya AI",
+    "panelTitle": "Tanya AI",
+    "greeting": "How can I help you?",
+    "placeholder": "Tanya soalan...",
+    "tooltip": "Tanya soalan kepada AI",
+    "tryAsking": "Cuba tanya soalan",
+    "askAnything": "Tanya apa-apa...",
+    "clearChat": "Kosongkan sembang",
+    "close": "Tutup",
+    "expand": "Kembangkan",
+    "collapse": "Kecilkan",
+    "thinking": "Berfikir...",
+    "askMeAnything": "Tanya apa sahaja",
+    "askMeAnythingDescription": "Dapatkan bantuan untuk menavigasi dokumentasi, memahami konsep, dan mencari jawapan.",
+    "faq": "Soalan Lazim",
+    "chatCleared": "Sembang dikosongkan semasa segar semula",
+    "lineBreak": "Pemutus baris",
+    "explainWithAi": "Terangkan dengan AI",
+    "toolListPages": "Halaman dokumentasi tersenarai",
+    "toolReadPage": "Baca",
+    "loading": {
+      "searching": "Mencari dokumentasi",
+      "reading": "Membaca dokumen",
+      "analyzing": "Menganalisis kandungan",
+      "finding": "Mencari jawapan terbaik",
+      "finished": "Sumber yang digunakan"
+    }
+  }
+}

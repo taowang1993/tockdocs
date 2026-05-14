@@ -1,0 +1,67 @@
+{
+  "common": {
+    "or": "или",
+    "error": {
+      "title": "Страницата не е намерена",
+      "description": "Съжаляваме, но тази страница не може да бъде намерена."
+    }
+  },
+  "search": {
+    "knowledgeBases": "",
+    "knowledgeBasesPlaceholder": ""
+  },
+  "docs": {
+    "copy": {
+      "page": "Копиране на Markdown кода на страницата",
+      "link": "Копиране на връзка към Markdown файла на страницата",
+      "view": "Отваряне на Markdown файла на страницата",
+      "gpt": "Отваряне в ChatGPT",
+      "claude": "Отваряне в Claude"
+    },
+    "links": "Общност",
+    "links-ui": "Nuxt UI docs",
+    "links-content": "Nuxt Content docs",
+    "links-studio": "Nuxt Studio docs",
+    "toc": "На тази страница",
+    "menu": "Меню",
+    "report": "Докладване на проблем",
+    "edit": "Редактиране на тази страница"
+  },
+  "logo": {
+    "copyLogo": "Копиране на логото",
+    "downloadLogo": "Изтегляне на логото",
+    "brandAssets": "Брандови материали",
+    "logoCopied": "Логото е копирано",
+    "logoDownloaded": "Логото е изтеглено",
+    "copyLogoFailed": "Неуспешно копиране на логото"
+  },
+  "assistant": {
+    "title": "Попитайте AI",
+    "panelTitle": "Попитайте AI",
+    "greeting": "How can I help you?",
+    "placeholder": "Задайте въпрос...",
+    "tooltip": "Задайте въпрос на AI",
+    "tryAsking": "Опитайте да зададете въпрос",
+    "askAnything": "Попитайте каквото и да е...",
+    "clearChat": "Изчистване на чата",
+    "close": "Затваряне",
+    "expand": "Разширяване",
+    "collapse": "Свиване",
+    "thinking": "Мисля си...",
+    "askMeAnything": "Попитайте за всичко",
+    "askMeAnythingDescription": "Потърсете помощ за навигация в документацията, разбиране на концепциите и намиране на отговори.",
+    "faq": "Често задавани въпроси",
+    "chatCleared": "Чатът е изчистен при обновяване",
+    "lineBreak": "Прекъсване на линията",
+    "explainWithAi": "Обяснете с ИИ",
+    "toolListPages": "Изброени страници от документацията",
+    "toolReadPage": "Четене",
+    "loading": {
+      "searching": "Търсене в документацията",
+      "reading": "Четене на документите",
+      "analyzing": "Анализиране на съдържанието",
+      "finding": "Намиране на най-добрия отговор",
+      "finished": "Използвани източници"
+    }
+  }
+}

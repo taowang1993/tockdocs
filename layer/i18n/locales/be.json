@@ -1,0 +1,67 @@
+{
+  "common": {
+    "or": "або",
+    "error": {
+      "title": "Старонка не знойдзена",
+      "description": "Прабачце, але старонка, якую вы шукаеце, не знойдзена."
+    }
+  },
+  "search": {
+    "knowledgeBases": "",
+    "knowledgeBasesPlaceholder": ""
+  },
+  "docs": {
+    "copy": {
+      "page": "Скапіраваць старонку",
+      "link": "Скапіраваць Markdown-старонку",
+      "view": "Праглядзець як Markdown",
+      "gpt": "Адкрыць у ChatGPT",
+      "claude": "Адкрыць у Claude"
+    },
+    "links": "Супольнасць",
+    "links-ui": "Nuxt UI docs",
+    "links-content": "Nuxt Content docs",
+    "links-studio": "Nuxt Studio docs",
+    "toc": "На гэтай старонцы",
+    "menu": "Меню",
+    "report": "Паведаміць пра праблему",
+    "edit": "Рэдагаваць гэтую старонку"
+  },
+  "logo": {
+    "copyLogo": "Капіяваць лагатып",
+    "downloadLogo": "Спампаваць лагатып",
+    "brandAssets": "Матэрыялы брэнда",
+    "logoCopied": "Лагатып скапіяваны",
+    "logoDownloaded": "Лагатып спампаваны",
+    "copyLogoFailed": "Не ўдалося скапіяваць лагатып"
+  },
+  "assistant": {
+    "title": "Спытаць ІІ",
+    "panelTitle": "Спытаць ІІ",
+    "greeting": "How can I help you?",
+    "placeholder": "Задаць пытанне...",
+    "tooltip": "Задаць пытанне ІІ",
+    "tryAsking": "Паспрабуйце задаць пытанне",
+    "askAnything": "Спытай што заўгодна...",
+    "clearChat": "Ачысціць чат",
+    "close": "Закрыць",
+    "expand": "Пашырыць",
+    "collapse": "Згарнуць",
+    "thinking": "Мысленне...",
+    "askMeAnything": "Спытаць што-небудзь",
+    "askMeAnythingDescription": "Атрымаць дапамогу ў навігацыі па дакументацыі, разуменні канцэпцый і пошуку адказаў.",
+    "faq": "Пытанні і адказы",
+    "chatCleared": "Чат ачышчаецца пры абнаўленні",
+    "lineBreak": "Перапынак у радку",
+    "explainWithAi": "Растлумачыць ІІ",
+    "toolListPages": "Старонкі дакументацыі",
+    "toolReadPage": "Чытаць",
+    "loading": {
+      "searching": "Пошук дакументацыі",
+      "reading": "Чытанне праз дакументы",
+      "analyzing": "Аналіз зместу",
+      "finding": "Пошук найлепшага адказу",
+      "finished": "Выкарыстаныя крыніцы"
+    }
+  }
+}

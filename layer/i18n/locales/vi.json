@@ -1,0 +1,67 @@
+{
+  "common": {
+    "or": "hoặc",
+    "error": {
+      "title": "Không tìm thấy trang",
+      "description": "Chúng tôi xin lỗi, nhưng trang bạn đang tìm kiếm không tồn tại."
+    }
+  },
+  "search": {
+    "knowledgeBases": "",
+    "knowledgeBasesPlaceholder": ""
+  },
+  "docs": {
+    "copy": {
+      "page": "Sao chép trang",
+      "link": "Sao chép trang Markdown",
+      "view": "Xem dưới dạng Markdown",
+      "gpt": "Mở trong ChatGPT",
+      "claude": "Mở trong Claude"
+    },
+    "links": "Cộng đồng",
+    "links-ui": "Nuxt UI docs",
+    "links-content": "Nuxt Content docs",
+    "links-studio": "Nuxt Studio docs",
+    "toc": "Trên trang này",
+    "menu": "Menu",
+    "report": "Báo cáo sự cố",
+    "edit": "Chỉnh sửa trang này"
+  },
+  "logo": {
+    "copyLogo": "Sao chép logo",
+    "downloadLogo": "Tải logo",
+    "brandAssets": "Tài nguyên thương hiệu",
+    "logoCopied": "Đã sao chép logo",
+    "logoDownloaded": "Đã tải logo",
+    "copyLogoFailed": "Không thể sao chép logo"
+  },
+  "assistant": {
+    "title": "Hỏi AI",
+    "panelTitle": "Hỏi AI",
+    "greeting": "How can I help you?",
+    "placeholder": "Đặt một câu hỏi...",
+    "tooltip": "Đặt câu hỏi cho AI",
+    "tryAsking": "Hãy thử đặt một câu hỏi",
+    "askAnything": "Hỏi bất cứ điều gì...",
+    "clearChat": "Xóa cuộc trò chuyện",
+    "close": "Đóng",
+    "expand": "Mở rộng",
+    "collapse": "Thu gọn",
+    "thinking": "Đang suy nghĩ...",
+    "askMeAnything": "Hỏi bất cứ điều gì",
+    "askMeAnythingDescription": "Nhận trợ giúp điều hướng tài liệu, hiểu các khái niệm và tìm câu trả lời.",
+    "faq": "Câu hỏi thường gặp",
+    "chatCleared": "Trò chuyện sẽ bị xóa khi làm mới",
+    "lineBreak": "Ngắt dòng",
+    "explainWithAi": "Giải thích bằng AI",
+    "toolListPages": "Các trang tài liệu được liệt kê",
+    "toolReadPage": "Đọc",
+    "loading": {
+      "searching": "Tìm kiếm tài liệu",
+      "reading": "Đọc qua tài liệu",
+      "analyzing": "Phân tích nội dung",
+      "finding": "Tìm câu trả lời tốt nhất",
+      "finished": "Nguồn được sử dụng"
+    }
+  }
+}

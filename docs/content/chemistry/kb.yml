@@ -1,0 +1,14 @@
+id: chemistry
+title: Chemistry
+titles:
+  zh: 化学
+description: Free chemistry notes based on standard Chinese high-school textbooks, covering atomic structure, organic chemistry, laboratory work, and ten core modules.
+descriptions:
+  zh: 基于中国普通高中教科书的免费化学笔记，涵盖原子结构、有机化学、化学实验等十大板块。
+icon: i-lucide-flask-conical
+defaultLocale: zh
+entry: atomic-structure/electron-configuration
+locales:
+  - zh
+assistantName: Chemistry Assistant
+searchPlaceholder: 搜索化学笔记...

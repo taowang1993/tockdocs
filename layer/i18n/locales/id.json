@@ -1,0 +1,70 @@
+{
+  "common": {
+    "or": "atau",
+    "error": {
+      "title": "Halaman tidak ditemukan",
+      "description": "Kami minta maaf, halaman ini tidak dapat ditemukan."
+    },
+    "copied": "Berhasil disalin ke papan klip"
+  },
+  "search": {
+    "knowledgeBases": "",
+    "knowledgeBasesPlaceholder": ""
+  },
+  "docs": {
+    "copy": {
+      "page": "Salin halaman",
+      "link": "Salin halaman Markdown",
+      "view": "Lihat sebagai Markdown",
+      "gpt": "Buka di ChatGPT",
+      "claude": "Buka di Claude",
+      "mcp_url": "Salin URL Server MCP",
+      "mcp_add": "Tambah Server MCP"
+    },
+    "links": "Komunitas",
+    "links-ui": "Nuxt UI docs",
+    "links-content": "Nuxt Content docs",
+    "links-studio": "Nuxt Studio docs",
+    "toc": "Pada halaman ini",
+    "menu": "Menu",
+    "report": "Laporkan masalah",
+    "edit": "Ubah halaman ini"
+  },
+  "logo": {
+    "copyLogo": "Salin logo",
+    "downloadLogo": "Unduh logo",
+    "brandAssets": "Aset merek",
+    "logoCopied": "Logo disalin",
+    "logoDownloaded": "Logo diunduh",
+    "copyLogoFailed": "Gagal menyalin logo"
+  },
+  "assistant": {
+    "title": "Tanya AI",
+    "panelTitle": "Tanya AI",
+    "greeting": "How can I help you?",
+    "placeholder": "Ajukan pertanyaan...",
+    "tooltip": "Ajukan pertanyaan kepada AI",
+    "tryAsking": "Coba ajukan pertanyaan",
+    "askAnything": "Tanyakan apa saja...",
+    "clearChat": "Hapus obrolan",
+    "close": "Tutup",
+    "expand": "Perluas",
+    "collapse": "Ciutkan",
+    "thinking": "Berpikir...",
+    "askMeAnything": "Tanyakan apa saja",
+    "askMeAnythingDescription": "Dapatkan bantuan untuk menavigasi dokumentasi, memahami konsep, dan menemukan jawaban.",
+    "faq": "Pertanyaan Umum",
+    "chatCleared": "Obrolan dihapus saat penyegaran",
+    "lineBreak": "Jeda baris",
+    "explainWithAi": "Jelaskan dengan AI",
+    "toolListPages": "Halaman dokumentasi yang terdaftar",
+    "toolReadPage": "Baca",
+    "loading": {
+      "searching": "Mencari dokumentasi",
+      "reading": "Membaca dokumen",
+      "analyzing": "Menganalisis konten",
+      "finding": "Menemukan jawaban terbaik",
+      "finished": "Sumber yang digunakan"
+    }
+  }
+}

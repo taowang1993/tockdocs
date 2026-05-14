@@ -1,0 +1,67 @@
+{
+  "common": {
+    "or": "أو",
+    "error": {
+      "title": "الصفحة غير موجودة",
+      "description": "نأسف، لكن الصفحة التي تبحث عنها غير موجودة."
+    }
+  },
+  "search": {
+    "knowledgeBases": "",
+    "knowledgeBasesPlaceholder": ""
+  },
+  "docs": {
+    "copy": {
+      "page": "نسخ الصفحة",
+      "link": "نسخ صفحة Markdown",
+      "view": "عرض كـ Markdown",
+      "gpt": "فتح في ChatGPT",
+      "claude": "فتح في Claude"
+    },
+    "links": "المجتمع",
+    "links-ui": "Nuxt UI docs",
+    "links-content": "Nuxt Content docs",
+    "links-studio": "Nuxt Studio docs",
+    "toc": "في هذه الصفحة",
+    "menu": "قائمة",
+    "report": "الإبلاغ عن مشكلة",
+    "edit": "تحرير هذه الصفحة"
+  },
+  "logo": {
+    "copyLogo": "نسخ الشعار",
+    "downloadLogo": "تحميل الشعار",
+    "brandAssets": "أصول العلامة التجارية",
+    "logoCopied": "تم نسخ الشعار",
+    "logoDownloaded": "تم تحميل الشعار",
+    "copyLogoFailed": "فشل نسخ الشعار"
+  },
+  "assistant": {
+    "title": "اسأل الذكاء الاصطناعي",
+    "panelTitle": "اسأل الذكاء الاصطناعي",
+    "greeting": "How can I help you?",
+    "placeholder": "اطرح سؤالاً...",
+    "tooltip": "اطرح سؤالاً على الذكاء الاصطناعي",
+    "tryAsking": "حاول طرح سؤال",
+    "askAnything": "اسأل أي شيء...",
+    "clearChat": "محو المحادثة",
+    "close": "إغلاق",
+    "expand": "توسيع",
+    "collapse": "طي",
+    "thinking": "التفكير...",
+    "askMeAnything": "اسأل عن أي شيء",
+    "askMeAnythingDescription": "احصل على المساعدة في التنقل بين الوثائق وفهم المفاهيم والعثور على الإجابات.",
+    "faq": "الأسئلة الشائعة",
+    "chatCleared": "تم مسح الدردشة عند التحديث",
+    "lineBreak": "فاصل الأسطر",
+    "explainWithAi": "اشرح باستخدام الذكاء الاصطناعي",
+    "toolListPages": "صفحات الوثائق المدرجة",
+    "toolReadPage": "قراءة",
+    "loading": {
+      "searching": "البحث في الوثائق",
+      "reading": "قراءة المستندات",
+      "analyzing": "تحليل المحتوى",
+      "finding": "العثور على أفضل إجابة",
+      "finished": "المصادر المستخدمة"
+    }
+  }
+}

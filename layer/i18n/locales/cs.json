@@ -1,0 +1,67 @@
+{
+  "common": {
+    "or": "nebo",
+    "error": {
+      "title": "Stránka nenalezena",
+      "description": "Je nám líto, ale stránka, kterou hledáte, nebyla nalezena."
+    }
+  },
+  "search": {
+    "knowledgeBases": "",
+    "knowledgeBasesPlaceholder": ""
+  },
+  "docs": {
+    "copy": {
+      "page": "Kopírovat stránku",
+      "link": "Kopírovat Markdown stránku",
+      "view": "Zobrazit jako Markdown",
+      "gpt": "Otevřít v ChatGPT",
+      "claude": "Otevřít v Claude"
+    },
+    "links": "Komunita",
+    "links-ui": "Nuxt UI docs",
+    "links-content": "Nuxt Content docs",
+    "links-studio": "Nuxt Studio docs",
+    "toc": "Na této stránce",
+    "menu": "Nabídka",
+    "report": "Nahlásit problém",
+    "edit": "Upravit tuto stránku"
+  },
+  "logo": {
+    "copyLogo": "Kopírovat logo",
+    "downloadLogo": "Stáhnout logo",
+    "brandAssets": "Materiály značky",
+    "logoCopied": "Logo zkopírováno",
+    "logoDownloaded": "Logo staženo",
+    "copyLogoFailed": "Kopírování loga selhalo"
+  },
+  "assistant": {
+    "title": "Zeptejte se AI",
+    "panelTitle": "Zeptejte se AI",
+    "greeting": "How can I help you?",
+    "placeholder": "Zeptej se...",
+    "tooltip": "Zeptejte se umělé inteligence",
+    "tryAsking": "Zkus položit otázku",
+    "askAnything": "Zeptej se na cokoliv...",
+    "clearChat": "Vymazat chat",
+    "close": "Zavřít",
+    "expand": "Rozbalit",
+    "collapse": "Sbalit",
+    "thinking": "Přemýšlím...",
+    "askMeAnything": "Zeptej se na cokoliv",
+    "askMeAnythingDescription": "Získejte pomoc s orientací v dokumentaci, porozuměním konceptům a nalezením odpovědí.",
+    "faq": "Často kladené otázky",
+    "chatCleared": "Chat je vymazán při obnovení",
+    "lineBreak": "Zalomení řádku",
+    "explainWithAi": "Vysvětlete pomocí AI",
+    "toolListPages": "Uvedené stránky dokumentace",
+    "toolReadPage": "Číst",
+    "loading": {
+      "searching": "Vyhledávání v dokumentaci",
+      "reading": "Čtení dokumentů",
+      "analyzing": "Analýza obsahu",
+      "finding": "Nalezení nejlepší odpovědi",
+      "finished": "Použité zdroje"
+    }
+  }
+}

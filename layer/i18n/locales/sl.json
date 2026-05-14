@@ -1,0 +1,67 @@
+{
+  "common": {
+    "or": "ali",
+    "error": {
+      "title": "Stran ni bila najdena",
+      "description": "Opravičujemo se, vendar stran, ki jo iščete, ni bila najdena."
+    }
+  },
+  "search": {
+    "knowledgeBases": "",
+    "knowledgeBasesPlaceholder": ""
+  },
+  "docs": {
+    "copy": {
+      "page": "Kopiraj stran",
+      "link": "Kopiraj Markdown stran",
+      "view": "Prikaži kot Markdown",
+      "gpt": "Odpri v ChatGPT",
+      "claude": "Odpri v Claude"
+    },
+    "links": "Skupnost",
+    "links-ui": "Nuxt UI docs",
+    "links-content": "Nuxt Content docs",
+    "links-studio": "Nuxt Studio docs",
+    "toc": "Na tej strani",
+    "menu": "Meni",
+    "report": "Prijavi težavo",
+    "edit": "Uredi to stran"
+  },
+  "logo": {
+    "copyLogo": "Kopiraj logotip",
+    "downloadLogo": "Prenesi logotip",
+    "brandAssets": "Materiali blagovne znamke",
+    "logoCopied": "Logotip kopiran",
+    "logoDownloaded": "Logotip prenesen",
+    "copyLogoFailed": "Kopiranje logotipa ni uspelo"
+  },
+  "assistant": {
+    "title": "Vprašajte AI",
+    "panelTitle": "Vprašajte AI",
+    "greeting": "How can I help you?",
+    "placeholder": "Postavite vprašanje...",
+    "tooltip": "Zastavite vprašanje AI",
+    "tryAsking": "Poskusite postaviti vprašanje",
+    "askAnything": "Vprašajte karkoli...",
+    "clearChat": "Počisti klepet",
+    "close": "Zapri",
+    "expand": "Razširi",
+    "collapse": "Strni",
+    "thinking": "Razmišljanje...",
+    "askMeAnything": "Vprašaj karkoli",
+    "askMeAnythingDescription": "Poiščite pomoč pri krmarjenju po dokumentaciji, razumevanju konceptov in iskanju odgovorov.",
+    "faq": "Pogosta vprašanja",
+    "chatCleared": "Klepet se ob osvežitvi izbriše",
+    "lineBreak": "Prelom vrstice",
+    "explainWithAi": "Razloži z AI",
+    "toolListPages": "Navedene strani dokumentacije",
+    "toolReadPage": "Preberi",
+    "loading": {
+      "searching": "Iskanje po dokumentaciji",
+      "reading": "Prebiranje dokumentov",
+      "analyzing": "Analiza vsebine",
+      "finding": "Iskanje najboljšega odgovora",
+      "finished": "Uporabljeni viri"
+    }
+  }
+}
