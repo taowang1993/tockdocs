@@ -64,9 +64,16 @@ The repo supports two runtime shapes:
                 │
                 ▼
            Nuxt Content SQLite + Rendered Docs Pages
-```
 
-## Runtime Modes
+Assistant path
+
+User → AssistantPanel.vue → /__tockdocs__/assistant → AI provider resolver
+     → backend fork (ASSISTANT_FS_BACKEND):
+       mcp   → MCP client/server → search-pages | list-pages | get-page
+       index → INDEX.md in prompt → get-page only (single round-trip)
+       gitfs → GitFS + bash tool → rg | find | ls | cat
+     → /source markdown → streamed grounded answer
+```
 
 ### KB Mode
 
@@ -163,15 +170,15 @@ This pipeline is used by search, MCP tools, `DocsPageHeaderLinks`, edit/source l
 
 ### Local Module Graph
 
-| Local Module | Responsibility |
-| --- | --- |
-| `config` | Site metadata, i18n locale filtering, runtime config, landing OG prerender hints |
-| `routing` | KB/legacy route selection, landing route injection, `useTockDocs*` imports |
-| `markdown-rewrite` | Markdown alias handling, `llms.txt` link rewriting, Vercel markdown redirects |
-| `skills` | Agent skill catalog scan, `/.well-known/skills/*` routes, prerendered manifests |
-| `css` | Tailwind v4 source template for content, layer UI, and assistant runtime |
-| `assistant` | Assistant enablement, public runtime config, component registration, assistant API route |
-| `index-generator` | Build-time `INDEX.md` generation per KB × locale, index asset serving, on-demand dev fallback |
+| Local Module       | Responsibility                                                                                |
+| ------------------ | --------------------------------------------------------------------------------------------- |
+| `config`           | Site metadata, i18n locale filtering, runtime config, landing OG prerender hints              |
+| `routing`          | KB/legacy route selection, landing route injection, `useTockDocs*` imports                    |
+| `markdown-rewrite` | Markdown alias handling, `llms.txt` link rewriting, Vercel markdown redirects                 |
+| `skills`           | Agent skill catalog scan, `/.well-known/skills/*` routes, prerendered manifests               |
+| `css`              | Tailwind v4 source template for content, layer UI, and assistant runtime                      |
+| `assistant`        | Assistant enablement, public runtime config, component registration, assistant API route      |
+| `index-generator`  | Build-time `INDEX.md` generation per KB × locale, index asset serving, on-demand dev fallback |
 
 ### App Shell
 
@@ -240,11 +247,9 @@ Important implementation details:
 
 ### Backend Selection
 
-| Backend | Model Tools | Round-Trips Per Query | Prompt Preload | Best For |
-| --- | --- | --- | --- | --- |
-| `mcp` | search-pages + list-pages + get-page | 2+ | none | Small to medium KBs needing fuzzy search |
-| `index` | get-page only | 1 | INDEX.md (~2K tokens) | KBs under ~260 pages; fastest path |
-| `gitfs` | bash (rg/find/ls/cat) | 2+ | none | Auto-scaling; works without build artifacts |
+- **`mcp`** — search-pages + list-pages + get-page; 2+ round-trips; no prompt preload. Best for small to medium KBs needing fuzzy search.
+- **`index`** — get-page only; single round-trip; preloads INDEX.md (~2K tokens). Best for KBs under ~260 pages; fastest path.
+- **`gitfs`** — bash (rg/find/ls/cat); 2+ round-trips; no prompt preload. Best for auto-scaling; works without build artifacts.
 
 The INDEX backend falls back to MCP automatically when the generated index exceeds the 8K token budget, or when no index exists for the requested scope.
 

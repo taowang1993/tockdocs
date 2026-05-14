@@ -19,33 +19,33 @@ Both backends scope retrieval to the current KB and locale, derived from the req
 ```text
                               Assistant Request Flow
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│ AskAiButton / FloatingInput / Explain with AI                               │
+│ AskAiButton / FloatingInput / Explain with AI                                │
 └───────────────┬──────────────────────────────────────────────────────────────┘
                 │
                 ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│ useAssistant() + AssistantPanel.vue                                         │
-│ @ai-sdk/vue Chat + DefaultChatTransport                                     │
+│ useAssistant() + AssistantPanel.vue                                          │
+│ @ai-sdk/vue Chat + DefaultChatTransport                                      │
 └───────────────┬──────────────────────────────────────────────────────────────┘
                 │ POST /__tockdocs__/assistant
                 ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│ runtime/server/api/search.ts                                                │
-│ scope from referer · provider/model resolution · backend fork               │
+│ runtime/server/api/search.ts                                                 │
+│ scope from referer · provider/model resolution · backend fork                │
 └───────────┬──────────────────────────────────────┬───────────────────────────┘
             │ ASSISTANT_FS_BACKEND=mcp             │ ASSISTANT_FS_BACKEND=index
             ▼                                      ▼
 ┌─────────────────────────────────┐  ┌─────────────────────────────────────────┐
-│ MCP Client Bootstrap            │  │ Fetch INDEX.md for Scope               │
-│ search-pages · list-pages       │  │ inject into system prompt              │
-│ · get-page                      │  │ Expose Only get-page                   │
+│ MCP Client Bootstrap            │  │ Fetch INDEX.md for Scope                │
+│ search-pages · list-pages       │  │ inject into system prompt               │
+│ · get-page                      │  │ Expose Only get-page                    │
 └───────────────┬─────────────────┘  └───────────────┬─────────────────────────┘
                 │                                    │
                 │ scoped to kb/locale                │ scan index in prompt
                 ▼                                    ▼
 ┌─────────────────────────────────┐  ┌─────────────────────────────────────────┐
-│ Nuxt Content + /source md       │  │ get-page (Single Call)                 │
-│ + hybrid FlexSearch/Fuse        │  │ reads full markdown from /source      │
+│ Nuxt Content + /source md       │  │ get-page (Single Call)                  │
+│ + hybrid FlexSearch/Fuse        │  │ reads full markdown from /source        │
 └───────────────┬─────────────────┘  └───────────────┬─────────────────────────┘
                 │                                    │
                 ├────────────────────────────────────┤
@@ -54,24 +54,24 @@ Both backends scope retrieval to the current KB and locale, derived from the req
 ┌─────────────────────────────────────────┐          │
 │ GitFS + just-bash Init                  │          │
 │ mount docs/content/<kb>/<locale>        │          │
-│ at /repo                               │          │
+│ at /repo                                │          │
 └───────────────┬─────────────────────────┘          │
-                │ scoped by mount root                 │
+                │ scoped by mount root               │
                 ▼                                    │
 ┌─────────────────────────────────────────┐          │
 │ bash tool: rg, find, ls, cat            │          │
-│ raw filesystem exploration             │          │
+│ raw filesystem exploration              │          │
 └───────────────┬─────────────────────────┘          │
                 │                                    │
                 └──────────────┬─────────────────────┘
                                ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│ streamText() — same model, same streaming transport, same stop logic        │
+│ streamText() — same model, same streaming transport, same stop logic         │
 └───────────────────────────────┬──────────────────────────────────────────────┘
                                 │
                                 ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│ UI stream → AssistantLoading · MDCCached · AssistantPreStream               │
+│ UI stream → AssistantLoading · MDCCached · AssistantPreStream                │
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -81,12 +81,10 @@ Both backends scope retrieval to the current KB and locale, derived from the req
 
 The current layer shell uses these assistant entrypoints:
 
-| Surface | File | Behavior |
-| --- | --- | --- |
-| Header trigger | `layer/app/components/AskAiButton.vue` | Toggles the panel without forcing a new prompt |
-| Floating prompt | `layer/modules/assistant/runtime/components/AssistantFloatingInput.vue` | Sends `open(message, true)` so a fresh question starts a fresh chat |
-| Right-sidebar action | `layer/app/components/docs/DocsAsideRightBottom.vue` | Opens the panel with `Explain the page <route.path>` and clears prior chat |
-| Main chat surface | `layer/modules/assistant/runtime/components/AssistantPanel.vue` | Docked desktop panel or mobile `USlideover` |
+- **Header trigger** — `AskAiButton.vue`: toggles the panel without forcing a new prompt.
+- **Floating prompt** — `AssistantFloatingInput.vue`: sends `open(message, true)` for a fresh question.
+- **Right-sidebar action** — `DocsAsideRightBottom.vue`: opens the panel with `Explain the page <route.path>`, clearing prior chat.
+- **Main chat surface** — `AssistantPanel.vue`: docked desktop panel or mobile `USlideover`.
 
 `layer/app/app.vue` mounts `LazyAssistantPanel` and `LazyAssistantFloatingInput` inside `ClientOnly` when `useAssistant().isEnabled` is true. It also shifts the main app shell right by the docked panel width so the desktop sidebar does not overlap the page.
 
@@ -121,32 +119,6 @@ Important behavior:
 - `toggleExpanded()` switches the desktop width between compact (`352px`) and expanded (`520px`)
 - desktop width is clamped between `320px` and `520px`
 
-### `AssistantPanel.vue`
-
-`AssistantPanel.vue` creates a `Chat` instance from `@ai-sdk/vue` and sends messages through `DefaultChatTransport` to `config.public.assistant.apiPath`.
-
-Main behavior:
-
-- **desktop:** docked right sidebar, resizable from `320px` to `520px`
-- **mobile:** `USlideover`
-- streams tool activity and assistant text into one message flow
-- supports stop / regenerate through `UChatPromptSubmit`
-- syncs its local `Chat` instance back into shared `messages` state on finish
-- clears local chat state when shared `messages` are reset
-
-On docs pages, the right TOC column hides only after hydration when the assistant is open, which avoids SSR/client rendering mismatches.
-
-### Rendering Helpers
-
-Before MDC parsing, `sanitizeAssistantText()` escapes bare `<word` tags so values like `<kb>` or `<locale>` are not treated as Vue components. Autolinks such as `<https://...>` are preserved.
-
-Supporting components:
-
-- **`AssistantLoading.vue`** — loading text rotation + streamed tool call display
-- **`AssistantMatrix.vue`** — animated 4×4 dot-matrix indicator
-- **`AssistantPreStream.vue`** — progressive code highlighting using a cached Shiki highlighter
-- **`useHighlighter()`** — singleton Shiki setup for Vue, JS, TS, CSS, HTML, JSON, YAML, Markdown, and Bash
-
 ## Server Request Handling and Streaming
 
 ### End-to-End Request Handling
@@ -163,7 +135,7 @@ For each request it:
 6. **MCP path:** appends `kb` / `locale` query params to the MCP transport URL and loads tools with a `30s` connect timeout
 7. **GitFS path:** initializes GitFS + just-bash, mounts `docs/content/<kb>/<locale>` at `/repo`, and exposes a single `bash` tool
 8. runs `streamText()` with the backend-specific tool set and system prompt, returns `createUIMessageStreamResponse()`
-8. cleans up resources (MCP client close or workspace directory removal) and logs duration / tool counts on finish
+9. cleans up resources (MCP client close or workspace directory removal) and logs duration / tool counts on finish
 
 If there is no usable `referer`, the assistant falls back to:
 
@@ -202,38 +174,17 @@ GitFS-specific:
 - cite filesystem paths (not public URLs)
 - `/repo` is read-only
 
-### MCP Transport Modes
-
-The assistant supports three MCP transport shapes:
-
-- **external HTTP** — full external MCP URL
-- **internal dev HTTP** — same-origin HTTP fetch during local dev
-- **internal local fetch** — same-origin `event.fetch()` in production to avoid an extra HTTP hop
-
-The MCP timeout only guards the initial connect + tools/list phase. Once tools are loaded, the timeout is cleared and model generation can continue normally.
-
-### `streamText()` Settings
-
-Current server settings:
-
-- `maxOutputTokens: 6000`
-- `maxRetries: 2`
-- `MAX_STEPS = 10`
-- stop when the **last** step has text and no tool calls, or when `MAX_STEPS` is reached
-
-Tool calls are emitted into the UI stream as `data-tool-calls` parts so the client can show them live while text is still streaming.
-
 ## Retrieval Backends
 
 ### MCP (default)
 
 `layer/server/mcp/tools/` exposes three read-only tools, each cached for **1 hour**:
 
-| Tool | Purpose |
-| --- | --- |
-| `search-pages` | Searches titles, descriptions, headings, path tokens, and body text |
-| `list-pages` | Returns a flat list of page metadata (`title`, `path`, `description`, `url`) across scoped collections |
-| `get-page` | Returns full original markdown + metadata for an exact routed path |
+| Tool           | Purpose                                                                                                |
+| -------------- | ------------------------------------------------------------------------------------------------------ |
+| `search-pages` | Searches titles, descriptions, headings, path tokens, and body text                                    |
+| `list-pages`   | Returns a flat list of page metadata (`title`, `path`, `description`, `url`) across scoped collections |
+| `get-page`     | Returns full original markdown + metadata for an exact routed path                                     |
 
 **Scope enforcement:**
 
@@ -327,19 +278,7 @@ Supported providers:
 - `gemini`
 - `cloudflare`
 
-### Default Models
-
-| Provider | Required Server Credentials | Default Model |
-| --- | --- | --- |
-| `vercel` | `AI_GATEWAY_API_KEY` or `VERCEL_OIDC_TOKEN` | `google/gemini-3-flash` |
-| `openrouter` | `OPENROUTER_API_KEY` | `minimax/minimax-m2.5:free` |
-| `deepseek` | `DEEPSEEK_API_KEY` | `deepseek-v4-flash` |
-| `nvidia` | `NVIDIA_API_KEY` | `minimaxai/minimax-m2.7` |
-| `huggingface` | `HUGGINGFACE_API_KEY` | `deepseek-ai/DeepSeek-V4-Pro:together` |
-| `groq` | `GROQ_API_KEY` | `openai/gpt-oss-120b` |
-| `github` | `GITHUB_TOKEN` | `openai/gpt-5` |
-| `gemini` | `GEMINI_API_KEY` | `gemini-3.1-flash-live-preview` |
-| `cloudflare` | `CLOUDFLARE_ACCOUNT_ID` + `CLOUDFLARE_API_TOKEN` | `@cf/google/gemma-4-26b-a4b-it` |
+Each provider maps to a default model — see `.env.example` for the current list.
 
 ### Auto-Detection Order
 
@@ -368,56 +307,9 @@ Backend mapping:
 
 OpenRouter adds `HTTP-Referer` and `X-Title` headers when the configured site URL is HTTPS.
 
-## Configuration Surfaces
+## Operational Notes
 
-### `nuxt.config.ts`
-
-Assistant runtime options live under `tockdocs.assistant`:
-
-- `apiPath`
-- `mcpServer`
-- `provider`
-- `model`
-
-The legacy top-level `assistant` config is still read, but it is deprecated.
-
-### `app.config.ts`
-
-Assistant UI options live under `assistant`:
-
-- `floatingInput`
-- `explainWithAi`
-- `faqQuestions`
-- `shortcuts.focusInput`
-- `icons.trigger`
-- `icons.explain`
-
-`faqQuestions` supports:
-
-- a flat string array
-- categorized groups
-- locale-keyed objects
-
-## Logging and Operational Notes
-
-Three log prefixes matter:
-
-- **`[tockdocs-assistant]`** — request lifecycle, provider/model choice, tool calls, duration, errors
-- **`[tockdocs-docs-search]`** — search index builds, queries, retries, top paths
-- **`[tockdocs-mcp-scope]`** — final KB / locale scope resolution
-
-Useful `toolCallCount` heuristics from assistant logs:
-
-- `0` — greeting/meta answer or missed retrieval
-- `1` — INDEX: scanned prompt + fetched matching page; or MCP: searched and answered from excerpts
-- `2` — MCP: searched, then fetched a full page
-- `3+` — retries or a more complex multi-step lookup
-
-A single `get-page` call with `fsBackend: index` is the expected fast path. With `fsBackend: mcp`, a search + get-page pattern typically takes 2 calls.
-
-Operational behavior:
-
-- in **dev**, the assistant UI is always enabled
-- in **production**, the UI is enabled when supported credentials exist or `NUXT_PUBLIC_ASSISTANT_ENABLED=true`
-- if UI is forced on but no provider is actually configured, the endpoint returns `503`
-- assistant state is scoped to the active KB / locale, not shared globally across the whole site
+- Assistant UI is always enabled in dev. In production, it requires credentials or `NUXT_PUBLIC_ASSISTANT_ENABLED=true`. Without a configured provider, the endpoint returns `503`.
+- Assistant state is scoped to the active KB/locale, not shared globally.
+- The `toolCallCount` in logs reveals the retrieval path: `0` = greeting/meta, `1` = index scan or MCP excerpt answer, `2` = MCP search + fetch, `3+` = retries.
+- Log prefixes: `[tockdocs-assistant]` (request lifecycle), `[tockdocs-docs-search]` (search), `[tockdocs-mcp-scope]` (scope resolution).

@@ -17,34 +17,39 @@ After (INDEX): User → [scans index in prompt] → get-page (call 1) → answer
 ## Design Decisions
 
 ### Summary source: reuse `description` frontmatter
+
 No new frontmatter field needed. The existing `description` field (already present on most pages, used by SEO and `list-pages`) serves as the summary. Pages without a `description` show only their title in the index.
 
 ### Scoping: per KB × locale
+
 INDEX.md is generated for each KB+locale combination. At query time, the backend picks the index matching the active scope (derived from headers or referer, same as MCP).
 
 ### Injection point: system prompt
+
 INDEX.md is prepended to the system prompt. The model sees it once at conversation start. Follow-up messages reuse the same context (standard LLM behavior) — no re-injection needed.
 
 ### Fallback: MCP on index too large
+
 If the INDEX.md exceeds a token budget (~8000 tokens), the backend falls back to MCP automatically and logs a warning. This keeps large KBs functional without context-window issues.
 
 ### Tool: reuse MCP `get-page`
+
 Still connect to the MCP server for scope enforcement + caching, but only expose `get-page` (filter out `search-pages` and `list-pages` from the tool set). No reimplementation needed.
 
 ## Files to Create
 
-| File | Purpose |
-|---|---|
-| `layer/server/utils/index-generator.ts` | Build-time INDEX.md generation logic |
-| `layer/modules/index-generator.ts` | Nuxt module: hooks into build to run the generator |
+| File                                    | Purpose                                            |
+| --------------------------------------- | -------------------------------------------------- |
+| `layer/server/utils/index-generator.ts` | Build-time INDEX.md generation logic               |
+| `layer/modules/index-generator.ts`      | Nuxt module: hooks into build to run the generator |
 
 ## Files to Modify
 
-| File | Change |
-|---|---|
-| `layer/modules/assistant/runtime/server/utils/system-prompt.ts` | Add `getIndexSystemPrompt()` |
-| `layer/modules/assistant/runtime/server/api/search.ts` | Add `index` branch in `getAssistantFsBackend()`, fetch index, filter tools, wire system prompt |
-| `layer/nuxt.config.ts` | Register the `index-generator` module |
+| File                                                            | Change                                                                                         |
+| --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `layer/modules/assistant/runtime/server/utils/system-prompt.ts` | Add `getIndexSystemPrompt()`                                                                   |
+| `layer/modules/assistant/runtime/server/api/search.ts`          | Add `index` branch in `getAssistantFsBackend()`, fetch index, filter tools, wire system prompt |
+| `layer/nuxt.config.ts`                                          | Register the `index-generator` module                                                          |
 
 ## INDEX.md Format
 
@@ -90,6 +95,7 @@ The generator produces relative `.md` paths (e.g., `/docs/parser/en/parser/foo.m
 **`layer/modules/index-generator.ts`**
 
 Nuxt module that:
+
 1. Hooks into `nuxt-build:before` or a Nitro build hook
 2. Iterates over all resolved KBs × locales (from runtime config or `layer/utils/knowledge-bases.ts`)
 3. For each KB+locale, queries the corresponding Nuxt Content collection
@@ -102,11 +108,13 @@ Nuxt module that:
 ```ts
 // In nuxt.config.ts or the module:
 nitro: {
-  serverAssets: [{
-    name: 'tockdocs-index',
-    dir: '.data/index', // build output directory
-    // files: index_<kb>_<locale>.md
-  }]
+  serverAssets: [
+    {
+      name: 'tockdocs-index',
+      dir: '.data/index', // build output directory
+      // files: index_<kb>_<locale>.md
+    },
+  ]
 }
 ```
 
@@ -136,7 +144,7 @@ export function getIndexSystemPrompt(
   siteName: string,
   scopeLabel: string | undefined,
   kb: AssistantKbMeta | undefined,
-  indexContent: string
+  indexContent: string,
 ) {
   return `${getIdentitySection(siteName, scopeLabel, kb)}
 
@@ -225,15 +233,15 @@ Add `'./modules/index-generator'` to the modules array (alongside the existing l
 
 ## Edge Cases
 
-| Case | Behavior |
-|---|---|
-| No `description` on a page | Show title + URL only, no "Summary:" line |
-| INDEX.md doesn't exist for KB/locale | Fall back to MCP, log warning |
-| INDEX.md exceeds ~8000 tokens | Fall back to MCP, log warning |
-| KB has no pages (empty collection) | Generate empty index with a note; model answers from identity |
-| Multi-KB site, user switches KB | New conversation gets the new KB's INDEX.md (existing scope-change logic handles this) |
-| Dev mode (no build artifacts) | Generate INDEX.md on first request and cache in memory (TTL same as search cache: 10s dev, 60s prod) |
-| `ASSISTANT_FS_BACKEND` unset or invalid | Defaults to `mcp` (unchanged behavior) |
+| Case                                    | Behavior                                                                                             |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| No `description` on a page              | Show title + URL only, no "Summary:" line                                                            |
+| INDEX.md doesn't exist for KB/locale    | Fall back to MCP, log warning                                                                        |
+| INDEX.md exceeds ~8000 tokens           | Fall back to MCP, log warning                                                                        |
+| KB has no pages (empty collection)      | Generate empty index with a note; model answers from identity                                        |
+| Multi-KB site, user switches KB         | New conversation gets the new KB's INDEX.md (existing scope-change logic handles this)               |
+| Dev mode (no build artifacts)           | Generate INDEX.md on first request and cache in memory (TTL same as search cache: 10s dev, 60s prod) |
+| `ASSISTANT_FS_BACKEND` unset or invalid | Defaults to `mcp` (unchanged behavior)                                                               |
 
 ## Testing Strategy
 
@@ -256,12 +264,12 @@ Add `'./modules/index-generator'` to the modules array (alongside the existing l
 
 ## Token Budget Reference
 
-| KB Size | Pages | Avg Description | Estimated Tokens | Viable? |
-|---|---|---|---|---|
-| Small | 50 | 15 words | ~1,500 | Yes |
-| Medium | 150 | 15 words | ~4,500 | Yes |
-| Large | 300 | 15 words | ~9,000 | Borderline → fallback |
-| X-Large | 500+ | 15 words | ~15,000 | No → MCP fallback |
+| KB Size | Pages | Avg Description | Estimated Tokens | Viable?               |
+| ------- | ----- | --------------- | ---------------- | --------------------- |
+| Small   | 50    | 15 words        | ~1,500           | Yes                   |
+| Medium  | 150   | 15 words        | ~4,500           | Yes                   |
+| Large   | 300   | 15 words        | ~9,000           | Borderline → fallback |
+| X-Large | 500+  | 15 words        | ~15,000          | No → MCP fallback     |
 
 At ~30 tokens per indexed entry (title + URL + summary), 8K token budget ≈ ~260 pages. This covers most real-world KBs.
 

@@ -1,5 +1,5 @@
 ---
-name: vercel-deploy
+name: deploy
 description: Deploy TockDocs to Vercel using local build + prebuilt artifacts. Use when the user wants to deploy to Vercel faster than the default cloud build, or when troubleshooting Vercel deployments. The project is configured at tao-project/tockdocs with rootDirectory=docs and uses the Nuxt framework preset. The deploy script is bundled at scripts/deploy.sh.
 ---
 
@@ -92,3 +92,34 @@ Note: The ~42s Vercel processing step is structural — Vercel always downloads 
 ## Auth
 
 Uses `vercel` CLI token stored automatically by `vercel login`. Run `vercel whoami` to verify.
+
+## Vercel Blob (KB Image Hosting)
+
+Vercel Blob is S3-compatible object storage integrated into Vercel's CDN. Use it to host KB images outside `public/` to avoid ballooning the deploy artifact (every file in `public/` ships to CDN on each deploy).
+
+**Setup (one-time per project):**
+
+1. Vercel dashboard → Project → Storage → Blob → Create
+2. Copy the `BLOB_READ_WRITE_TOKEN`
+3. Add to `.env.local`: `BLOB_READ_WRITE_TOKEN="vercel_blob_rw_..."`
+
+**Uploading images:**
+
+```bash
+node scripts/upload-assets.mjs docs/public/chemistry chemistry
+```
+
+Batch-uploads a directory, skips files already in blob, and prints a JSON manifest mapping filenames → blob URLs. Use `--dry-run` to preview.
+
+**After uploading:**
+
+1. Replace image `src` references in `.md` files from `/chemistry/X.webp` to the blob URL from the manifest
+2. Remove the `docs/public/chemistry/` directory
+3. Run `node scripts/check-assets.mjs` to confirm no large files remain
+
+**Server utilities** (`layer/server/utils/blob.ts`):
+
+- `uploadBlob(pathname, body)` — upload a single file
+- `deleteBlob(pathname)` — remove from blob
+- `listBlobs(prefix?)` — list all files
+- `blobExists(pathname)` — check existence

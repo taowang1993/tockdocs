@@ -61,87 +61,12 @@ Use `tree -L2` or `tree -L3` to maintain this section.
 └── pnpm-workspace.yaml      # Workspace package definitions
 ```
 
-## Architecture
-
-```text
-                              TockDocs Workspace
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ Root pnpm Workspace                                                          │
-│ package.json · pnpm-workspace.yaml · scripts/ · .github/workflows/ci.yml     │
-└───────────────┬────────────────────────────┬─────────────────────────────────┘
-                │                            │
-                │ builds / publishes         │ scaffolds from
-                │                            │
-        ┌───────▼────────┐           ┌───────▼────────┐
-        │ layer/         │           │ cli/           │
-        │ Nuxt Layer     │           │ create-        │
-        │ Product        │           │ tockdocs       │
-        └───────┬────────┘           └───────┬────────┘
-                │                            │
-         extends│                            │copies
-      ┌─────────┴──────────┐          ┌──────▼──────────────┐
-      │                    │          │ .starters/          │
-┌─────▼──────┐     ┌───────▼──────┐   │ default · i18n      │
-│ docs/      │     │ playground/  │   └─────────────────────┘
-│ Official   │     │ Local        │
-│ Site       │     │ Consumer     │
-└────────────┘     └──────────────┘
-
-                                 Inside layer/
-
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ Local Nuxt Modules                                                           │
-│ config · routing · markdown-rewrite · skills · css · assistant · index-gen   │
-└───────────────┬────────────────────────────┬─────────────────────────────────┘
-                │                            │
-                │ configures app/runtime     │ exposes server behavior
-                │                            │
-      ┌─────────▼──────────┐        ┌────────▼──────────────────────────────┐
-      │ app/               │        │ server/                               │
-      │ layouts · pages    │        │ sitemap · MCP tools · content helpers │
-      │ Header/Footer      │        │ /source + /raw + .md aliases          │
-      │ Navigation Shell   │        │ Docs Search + Source Serving          │
-      └─────────┬──────────┘        └────────┬──────────────────────────────┘
-                │                            │
-                │ resolves collections       │ reads original markdown
-                │                            │
-      ┌─────────▼──────────┐        ┌────────▼──────────────────────────────┐
-      │ content.config.ts  │        │ Nitro server assets                   │
-      │ Dynamic Collections│        │ content/**/*.{md,mdc} in Production   │
-      └─────────┬──────────┘        └───────────────────────────────────────┘
-                │
-                ▼
-           Nuxt Content SQLite + Rendered Docs Pages
-
-Assistant path
-
-User → AssistantPanel.vue → /__tockdocs__/assistant → AI provider resolver
-     → backend fork (ASSISTANT_FS_BACKEND):
-       mcp   → MCP client/server → search-pages | list-pages | get-page
-       index → INDEX.md in prompt → get-page only (single round-trip)
-       gitfs → GitFS + bash tool → rg | find | ls | cat
-     → /source markdown → streamed grounded answer
-```
-
-TockDocs is organized as a **layered monorepo**:
-
-1. **Workspace orchestration** at the root controls shared scripts, linting, typechecking, and release workflows.
-2. `layer/` is the composition root for the product. Its `nuxt.config.ts` wires in local modules (`config`, `routing`, `markdown-rewrite`, `skills`, `css`, `assistant`, `index-generator`) plus Nuxt ecosystem modules.
-3. `layer/app/` provides the UI shell: header/footer, docs layout, page rendering, left navigation, right TOC, and shared composables.
-4. `layer/content.config.ts` generates per-mode Nuxt Content collections for KB docs, legacy docs, landing pages, and optional `content/site` content.
-5. `layer/server/` provides content-aware server behavior: locale/content helpers, source-markdown serving and aliases, sitemap generation, and MCP tools.
-6. `layer/modules/assistant/` implements the docs-grounded AI assistant. The client streams chat to a server endpoint, which selects an AI provider, connects to an MCP server, and exposes TockDocs MCP tools to the model.
-7. `layer/modules/markdown-rewrite` and `layer/modules/skills` handle markdown alias behavior, `llms.txt` rewriting, and `/.well-known/skills/*` outputs.
-8. **Hybrid docs retrieval** is implemented in `layer/server/utils/docs-search.ts` using original markdown fetched through `/source<path>.<ext>`, FlexSearch for primary retrieval, and Fuse.js for fuzzy fallback.
-9. `docs/`, `playground/`, and generated starter projects are consumers of the same layer architecture.
-
 ## Reference (`.agents/reference/`)
 
 | File              | Purpose                              |
 | ----------------- | ------------------------------------ |
 | `architecture.md` | Architecture, routing, dual backend  |
 | `assistant.md`    | Assistant flow, MCP/GitFS, debugging |
-| `deploy.md`       | Deployment guardrails                |
 | `review.md`       | Review checklist                     |
 | `plan.md`         | Development Plan                     |
 
@@ -214,6 +139,7 @@ The local dev launcher uses port **4987** with `strictPort: true`; it does not f
 ## Development Guidelines
 
 - Do not run `pnpm dev`, `nuxt dev`, or other long-running app processes without user's permission.
+- Read `architecture.md` and `assistant.md` before reading anything else and writng any code.
 - Read `deploy.md`, before deploying to Vercel.
 
 ### Git
@@ -223,6 +149,8 @@ The local dev launcher uses port **4987** with `strictPort: true`; it does not f
 
 ### Copy
 
-- Title Case is mandatory for UI labels, buttons, menu items, options, chips, table headings, nav items, panel names, row titles, trigger labels, and standalone phrases.
-- Use sentence case only for body copy, descriptions, helper text, and full sentences.
-- Preserve exact on-screen capitalization when writing markdown reports, plans, and docs.
+- **Title Case** is mandatory for: UI labels, buttons, menu items, options, chips, table headings, nav items, panel names, row titles, trigger labels, and standalone phrases.
+- **ASCII and text diagrams:** box labels and diagram titles are standalone phrases — apply Title Case. Arrow text and flow descriptions are body copy — use sentence case.
+- **Table headings** (column and row labels) use Title Case regardless of content type — reference tables, comparison tables, feature tables, or UI tables.
+- **Sentence case** only for: body copy, descriptions, helper text, and full sentences.
+- **Preserve exact on-screen capitalization** when writing markdown reports, plans, and docs.
