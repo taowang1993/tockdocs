@@ -6,7 +6,7 @@
 
 Every file in `public/` gets pushed to the CDN on deploy. CDN bandwidth is the #1 cause of surprise bills.
 
-| Asset type | Where to put it |
+| Asset Type | Where to Put It |
 |---|---|
 | favicon, logo SVGs, small icons (<10KB) | `public/` — tiny, benefits from edge caching |
 | Screenshots, diagrams, photos | Object storage (S3-compatible, R2) |

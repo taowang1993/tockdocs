@@ -17,9 +17,9 @@ The repo supports two runtime shapes:
 ## Software Architecture
 
 ```text
-                              TockDocs workspace
+                              TockDocs Workspace
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│ Root pnpm workspace                                                          │
+│ Root pnpm Workspace                                                          │
 │ package.json · pnpm-workspace.yaml · scripts/ · .github/workflows/ci.yml     │
 └───────────────┬────────────────────────────┬─────────────────────────────────┘
                 │                            │
@@ -27,8 +27,8 @@ The repo supports two runtime shapes:
                 │                            │
         ┌───────▼────────┐           ┌───────▼────────┐
         │ layer/         │           │ cli/           │
-        │ Nuxt layer     │           │ create-        │
-        │ product        │           │ tockdocs       │
+        │ Nuxt Layer     │           │ create-        │
+        │ Product        │           │ tockdocs       │
         └───────┬────────┘           └───────┬────────┘
                 │                            │
          extends│                            │copies
@@ -36,13 +36,13 @@ The repo supports two runtime shapes:
       │                    │          │ .starters/          │
 ┌─────▼──────┐     ┌───────▼──────┐   │ default · i18n      │
 │ docs/      │     │ playground/  │   └─────────────────────┘
-│ official   │     │ local        │
-│ site       │     │ consumer     │
+│ Official   │     │ Local        │
+│ Site       │     │ Consumer     │
 └────────────┘     └──────────────┘
 
                                  Inside layer/
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│ local Nuxt modules                                                           │
+│ Local Nuxt Modules                                                           │
 │ config · routing · markdown-rewrite · skills · css · assistant · index-gen   │
 └───────────────┬────────────────────────────┬─────────────────────────────────┘
                 │                            │
@@ -51,19 +51,19 @@ The repo supports two runtime shapes:
       ┌─────────▼──────────┐        ┌────────▼──────────────────────────────┐
       │ app/               │        │ server/                               │
       │ layouts · pages    │        │ sitemap · MCP tools · content helpers │
-      │ header/footer      │        │ /source + /raw + .md aliases          │
-      │ navigation shell   │        │ docs search + source serving          │
+      │ Header/Footer      │        │ /source + /raw + .md aliases          │
+      │ Navigation Shell   │        │ Docs Search + Source Serving          │
       └─────────┬──────────┘        └────────┬──────────────────────────────┘
                 │                            │
                 │ resolves collections       │ reads original markdown
                 │                            │
       ┌─────────▼──────────┐        ┌────────▼──────────────────────────────┐
       │ content.config.ts  │        │ Nitro server assets                   │
-      │ dynamic collections│        │ content/**/*.{md,mdc} in production   │
+      │ Dynamic Collections│        │ content/**/*.{md,mdc} in Production   │
       └─────────┬──────────┘        └───────────────────────────────────────┘
                 │
                 ▼
-           Nuxt Content SQLite + rendered docs pages
+           Nuxt Content SQLite + Rendered Docs Pages
 ```
 
 ## Runtime Modes
@@ -163,7 +163,7 @@ This pipeline is used by search, MCP tools, `DocsPageHeaderLinks`, edit/source l
 
 ### Local Module Graph
 
-| Local module | Responsibility |
+| Local Module | Responsibility |
 | --- | --- |
 | `config` | Site metadata, i18n locale filtering, runtime config, landing OG prerender hints |
 | `routing` | KB/legacy route selection, landing route injection, `useTockDocs*` imports |

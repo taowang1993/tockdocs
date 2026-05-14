@@ -256,7 +256,7 @@ Add `'./modules/index-generator'` to the modules array (alongside the existing l
 
 ## Token Budget Reference
 
-| KB size | Pages | Avg description | Estimated tokens | Viable? |
+| KB Size | Pages | Avg Description | Estimated Tokens | Viable? |
 |---|---|---|---|---|
 | Small | 50 | 15 words | ~1,500 | Yes |
 | Medium | 150 | 15 words | ~4,500 | Yes |

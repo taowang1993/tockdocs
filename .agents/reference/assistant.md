@@ -17,7 +17,7 @@ Both backends scope retrieval to the current KB and locale, derived from the req
 ## Request Flow
 
 ```text
-                              Assistant request flow
+                              Assistant Request Flow
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │ AskAiButton / FloatingInput / Explain with AI                               │
 └───────────────┬──────────────────────────────────────────────────────────────┘
@@ -36,15 +36,15 @@ Both backends scope retrieval to the current KB and locale, derived from the req
             │ ASSISTANT_FS_BACKEND=mcp             │ ASSISTANT_FS_BACKEND=index
             ▼                                      ▼
 ┌─────────────────────────────────┐  ┌─────────────────────────────────────────┐
-│ MCP client bootstrap            │  │ Fetch INDEX.md for scope               │
+│ MCP Client Bootstrap            │  │ Fetch INDEX.md for Scope               │
 │ search-pages · list-pages       │  │ inject into system prompt              │
-│ · get-page                      │  │ expose only get-page                   │
+│ · get-page                      │  │ Expose Only get-page                   │
 └───────────────┬─────────────────┘  └───────────────┬─────────────────────────┘
                 │                                    │
                 │ scoped to kb/locale                │ scan index in prompt
                 ▼                                    ▼
 ┌─────────────────────────────────┐  ┌─────────────────────────────────────────┐
-│ Nuxt Content + /source md       │  │ get-page (single call)                 │
+│ Nuxt Content + /source md       │  │ get-page (Single Call)                 │
 │ + hybrid FlexSearch/Fuse        │  │ reads full markdown from /source      │
 └───────────────┬─────────────────┘  └───────────────┬─────────────────────────┘
                 │                                    │
@@ -52,7 +52,7 @@ Both backends scope retrieval to the current KB and locale, derived from the req
                 │       ASSISTANT_FS_BACKEND=gitfs   │
                 ▼                                    │
 ┌─────────────────────────────────────────┐          │
-│ GitFS + just-bash init                  │          │
+│ GitFS + just-bash Init                  │          │
 │ mount docs/content/<kb>/<locale>        │          │
 │ at /repo                               │          │
 └───────────────┬─────────────────────────┘          │
@@ -329,7 +329,7 @@ Supported providers:
 
 ### Default Models
 
-| Provider | Required server credentials | Default model |
+| Provider | Required Server Credentials | Default Model |
 | --- | --- | --- |
 | `vercel` | `AI_GATEWAY_API_KEY` or `VERCEL_OIDC_TOKEN` | `google/gemini-3-flash` |
 | `openrouter` | `OPENROUTER_API_KEY` | `minimax/minimax-m2.5:free` |
