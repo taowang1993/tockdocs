@@ -170,15 +170,13 @@ This pipeline is used by search, MCP tools, `DocsPageHeaderLinks`, edit/source l
 
 ### Local Module Graph
 
-| Local Module       | Responsibility                                                                                |
-| ------------------ | --------------------------------------------------------------------------------------------- |
-| `config`           | Site metadata, i18n locale filtering, runtime config, landing OG prerender hints              |
-| `routing`          | KB/legacy route selection, landing route injection, `useTockDocs*` imports                    |
-| `markdown-rewrite` | Markdown alias handling, `llms.txt` link rewriting, Vercel markdown redirects                 |
-| `skills`           | Agent skill catalog scan, `/.well-known/skills/*` routes, prerendered manifests               |
-| `css`              | Tailwind v4 source template for content, layer UI, and assistant runtime                      |
-| `assistant`        | Assistant enablement, public runtime config, component registration, assistant API route      |
-| `index-generator`  | Build-time `INDEX.md` generation per KB × locale, index asset serving, on-demand dev fallback |
+- **`config`** — Site metadata, i18n locale filtering, runtime config, landing OG prerender hints.
+- **`routing`** — KB/legacy route selection, landing route injection, `useTockDocs*` imports.
+- **`markdown-rewrite`** — Markdown alias handling, `llms.txt` link rewriting, Vercel markdown redirects.
+- **`skills`** — Agent skill catalog scan, `/.well-known/skills/*` routes, prerendered manifests.
+- **`css`** — Tailwind v4 source template for content, layer UI, and assistant runtime.
+- **`assistant`** — Assistant enablement, public runtime config, component registration, assistant API route.
+- **`index-generator`** — Build-time `INDEX.md` generation per KB × locale, index asset serving, on-demand dev fallback.
 
 ### App Shell
 

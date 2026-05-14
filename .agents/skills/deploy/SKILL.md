@@ -15,7 +15,7 @@ Before building, the script cleans stale caches to prevent Nuxt Content from ser
 
 ```bash
 cd ~/projects/knowledge/tockdocs
-./.agents/skills/vercel-deploy/scripts/deploy.sh
+./.agents/skills/deploy/scripts/deploy.sh
 ```
 
 ## Architecture

@@ -180,11 +180,9 @@ GitFS-specific:
 
 `layer/server/mcp/tools/` exposes three read-only tools, each cached for **1 hour**:
 
-| Tool           | Purpose                                                                                                |
-| -------------- | ------------------------------------------------------------------------------------------------------ |
-| `search-pages` | Searches titles, descriptions, headings, path tokens, and body text                                    |
-| `list-pages`   | Returns a flat list of page metadata (`title`, `path`, `description`, `url`) across scoped collections |
-| `get-page`     | Returns full original markdown + metadata for an exact routed path                                     |
+- **`search-pages`** — Searches titles, descriptions, headings, path tokens, and body text.
+- **`list-pages`** — Returns a flat list of page metadata (`title`, `path`, `description`, `url`) across scoped collections.
+- **`get-page`** — Returns full original markdown + metadata for an exact routed path.
 
 **Scope enforcement:**
 
