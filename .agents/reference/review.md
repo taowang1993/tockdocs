@@ -15,11 +15,13 @@ For each phase:
 3. Look for:
    - broken feature contracts
    - mismatched assumptions between server/client or build/runtime
+   - missing build-time assets or prerendered outputs
    - hidden route/content collisions
    - stale compatibility code
    - SSR/hydration hazards
    - incorrect path, locale, or URL construction
    - bad fallbacks that silently mask broken state
+   - verification gaps that let newer features ship untested
 4. Record findings before fixing:
    - feature
    - files involved
@@ -40,35 +42,35 @@ For each phase:
 - **Primary surfaces to trace:** `layer/app/app.vue`, `layer/app/layouts/docs.vue`, `layer/app/composables/useDocsPage.ts`, `layer/app/composables/useDocsNavigation.ts`, `layer/app/components/app/*`, `layer/app/components/HeaderSelectors.vue`, `layer/app/components/KnowledgeBaseDirectory.vue`, `layer/app/components/docs/*`, docs page components
 - **Key review questions:** Does a docs page render the right content, actions, edit/report links, navigation, locale selector, KB selector, SEO, and OG metadata for every mode?
 
-### Phase 3 — Assistant UI, MCP grounding, and hybrid retrieval
+### Phase 3 — Assistant UI, Scoped Retrieval, and Backend Selection
 
-- **Primary surfaces to trace:** `layer/modules/assistant/**`, `layer/server/mcp/tools/*`, `layer/server/utils/content.ts`, `layer/server/utils/docs-search.ts`
-- **Key review questions:** Does the assistant stay scoped to the current KB/locale, call tools correctly, retrieve the real source content, and avoid UI/runtime bugs during streaming or resizing?
+- **Primary surfaces to trace:** `layer/modules/assistant/**`, `layer/modules/index-generator.ts`, `layer/server/mcp/tools/*`, `layer/server/utils/content.ts`, `layer/server/utils/docs-search.ts`, `layer/server/utils/search-index*.ts`, `layer/modules/assistant/runtime/server/utils/gitfs-bash.ts`, `layer/modules/assistant/runtime/server/utils/system-prompt.ts`
+- **Key review questions:** Does the assistant stay scoped to the current KB/locale across MCP, INDEX, and GitFS? Do prebuilt search assets and `INDEX.md` fall back safely? Are streamed responses, prompt/tool cleanup, and resizing/mobile shell behavior stable?
 
-### Phase 4 — Search, sitemap, llms, robots, and OG output as discovery features
+### Phase 4 — Machine-Facing Discovery, Markdown Serving, and Skill Manifests
 
-- **Primary surfaces to trace:** `layer/server/routes/sitemap.xml.ts`, `layer/modules/config.ts`, `layer/modules/markdown-rewrite.ts`, OG components/utilities, docs build-time config
-- **Key review questions:** Do machine-facing outputs point at valid pages and raw sources? Are prerendered assets and crawl surfaces aligned with public routes?
+- **Primary surfaces to trace:** `layer/server/routes/sitemap*.ts`, `layer/modules/config.ts`, `layer/modules/markdown-rewrite.ts`, `layer/server/plugins/llms-markdown-alias.ts`, `layer/server/handlers/source-markdown.ts`, `layer/server/middleware/markdown-source-alias.ts`, `layer/modules/skills/**`, `layer/utils/agent-docs.ts`, OG components/utilities, docs build-time config
+- **Key review questions:** Do `sitemap.xml`, `robots.txt`, `llms.txt`, `llms-full.txt`, `/source/**`, `/raw/**`, `.md` aliases, and `/.well-known/skills/*` all resolve to valid scoped content? Are prerendered assets, negotiated markdown responses, and crawl surfaces aligned with public routes?
 
-### Phase 5 — Markdown/MDC authoring pipeline and content transforms
+### Phase 5 — Authoring Pipeline, Nuxt Studio Compatibility, and Content Transforms
 
-- **Primary surfaces to trace:** `layer/modules/markdown-rewrite.ts`, `layer/content.config.ts`, MDC validation scripts, Mermaid integration, docs content examples
-- **Key review questions:** Can authors safely write Markdown/MDC without producing malformed pages, broken embeds, or incorrect rewritten links?
+- **Primary surfaces to trace:** `layer/modules/markdown-rewrite.ts`, `layer/content.config.ts`, `scripts/check-mdc-source.mjs`, `scripts/check-raw-html.mjs`, `scripts/check-content-integrity.mjs`, `scripts/check-translation-parity.mjs`, `docs/app/utils/nuxt-studio-editor-mode.ts`, `docs/app/plugins/nuxt-studio-editor-mode.client.ts`, Mermaid/MathJax utilities, docs content examples
+- **Key review questions:** Can authors safely write Markdown/MDC without malformed pages, broken embeds, or incorrect rewritten links? Do raw HTML, MathJax, Mermaid, translation parity, and Chemistry Studio editor fallbacks avoid blank-editor or broken-render states?
 
-### Phase 6 — Theming, responsive behavior, and shared UI primitives
+### Phase 6 — Theming, Public Assets, Responsive Behavior, and Shared UI Primitives
 
-- **Primary surfaces to trace:** `layer/app/components/app/*`, color mode composables, logo/favicon handling, Tailwind/Nuxt UI integration
-- **Key review questions:** Do theme assets, breakpoints, and responsive layouts behave consistently across SSR and client navigation?
+- **Primary surfaces to trace:** `layer/app/components/app/*`, `layer/app/composables/useTockDocsColorMode.ts`, `layer/app/composables/useLogoAssets.ts`, `layer/utils/public-assets*.ts`, color mode middleware, logo/favicon handling, Tailwind/Nuxt UI integration, docs consumer branding plugins
+- **Key review questions:** Do logos, favicons, theme assets, breakpoints, and responsive layouts behave consistently across SSR, client navigation, assistant dock/slideover states, and Studio overlays?
 
-### Phase 7 — CLI scaffolding and starter parity with the layer
+### Phase 7 — CLI Scaffolding, Starter Parity, and Consumer Integration
 
-- **Primary surfaces to trace:** `cli/**`, `.starters/**`, starter content/config, generated project assumptions
-- **Key review questions:** Do generated projects still match the layer's real behavior, especially for routing, i18n, content shape, and docs affordances?
+- **Primary surfaces to trace:** `cli/**`, `.starters/**`, starter content/config, generated project assumptions, `docs/nuxt.config.ts`, `playground/**`
+- **Key review questions:** Do generated projects and local consumers still match the layer's real behavior for routing, i18n, content shape, assistant backends, skills manifests, markdown aliases, Nuxt Studio, and public assets?
 
-### Phase 8 — Workspace scripts, verification, and publish/release safety
+### Phase 8 — Workspace Scripts, Test Coverage, Verification, and Publish Safety
 
-- **Primary surfaces to trace:** root `package.json`, `scripts/**`, CI workflows, package metadata in `layer/` and `cli/`
-- **Key review questions:** Do local checks, CI checks, and publish flows validate the real product surfaces without hidden gaps or stale assumptions?
+- **Primary surfaces to trace:** root `package.json`, `scripts/**`, CI workflows, package metadata in `layer/` and `cli/`, regression tests across `layer/**` and `docs/**`
+- **Key review questions:** Do clean installs run the documented checks? Does `test:regression` cover newer feature tests? Do benchmark/debug scripts avoid machine-specific assumptions? Do local checks, CI, and publish flows validate the real product surfaces without stale assumptions?
 
 ## Review order guidance
 

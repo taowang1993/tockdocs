@@ -1,5 +1,3 @@
-import { writeFileSync } from 'node:fs'
-
 const BASE_URL = 'http://localhost:4987'
 const ENDPOINT = `${BASE_URL}/__tockdocs__/assistant`
 const QUERY = 'What is TockDocs?'
@@ -12,8 +10,8 @@ function buildBody(query) {
     messages: [{
       role: 'user',
       content: query,
-      parts: [{ type: 'text', text: query }]
-    }]
+      parts: [{ type: 'text', text: query }],
+    }],
   })
 }
 
@@ -24,12 +22,11 @@ async function timeRequest(backend, iteration) {
   const controller = new AbortController()
   const timeout = setTimeout(() => controller.abort(), 120_000)
 
-  let ttfb = null       // time to first byte (any SSE line)
-  let ttft = null       // time to first reasoning-delta or text-delta token
+  let ttfb = null // time to first byte (any SSE line)
+  let ttft = null // time to first reasoning-delta or text-delta token
   let firstTokenType = null
   let toolCallCount = 0
   let totalChunks = 0
-  let done = false
   let error = null
   let finishTime = null
 
@@ -38,10 +35,10 @@ async function timeRequest(backend, iteration) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Referer': `${BASE_URL}/docs/manual/en`
+        'Referer': `${BASE_URL}/docs/manual/en`,
       },
       body,
-      signal: controller.signal
+      signal: controller.signal,
     })
 
     if (!res.ok) {
@@ -51,7 +48,7 @@ async function timeRequest(backend, iteration) {
         ttfb: null,
         ttft: null,
         error: `HTTP ${res.status}: ${res.statusText}`,
-        finishTime: performance.now() - startTime
+        finishTime: performance.now() - startTime,
       }
     }
 
@@ -81,7 +78,6 @@ async function timeRequest(backend, iteration) {
 
         const jsonStr = line.slice(6) // remove "data: "
         if (jsonStr === '[DONE]') {
-          done = true
           finishTime = now - startTime
           continue
         }
@@ -105,7 +101,8 @@ async function timeRequest(backend, iteration) {
           if (data.type === 'finish') {
             finishTime = finishTime || now - startTime
           }
-        } catch {
+        }
+        catch {
           // skip parse errors
         }
       }
@@ -119,14 +116,17 @@ async function timeRequest(backend, iteration) {
           ttft = performance.now() - startTime
           firstTokenType = data.type
         }
-      } catch { /* ignore */ }
+      }
+      catch { /* ignore */ }
     }
 
     finishTime = finishTime || performance.now() - startTime
-  } catch (err) {
+  }
+  catch (err) {
     error = err.message
     finishTime = performance.now() - startTime
-  } finally {
+  }
+  finally {
     clearTimeout(timeout)
   }
 
@@ -139,7 +139,7 @@ async function timeRequest(backend, iteration) {
     toolCallCount,
     totalChunks,
     finishTime,
-    error
+    error,
   }
 }
 
@@ -150,7 +150,7 @@ function stats(values) {
     min: sorted[0],
     max: sorted[sorted.length - 1],
     avg: sorted.reduce((s, v) => s + v, 0) / sorted.length,
-    values: sorted
+    values: sorted,
   }
 }
 
@@ -176,7 +176,8 @@ async function main() {
 
       if (result.error) {
         console.log(`ERROR: ${result.error}`)
-      } else {
+      }
+      else {
         console.log(`TTFB=${result.ttfb?.toFixed(0)}ms TTFT=${result.ttft?.toFixed(0)}ms (${result.firstTokenType}) tools=${result.toolCallCount} chunks=${result.totalChunks}`)
       }
     }
@@ -197,7 +198,7 @@ async function main() {
     const errors = runs.filter(r => r.error).length
 
     rows.push({
-      Backend: backend,
+      'Backend': backend,
       'TTFB Avg': ttfbValues.length ? `${stats(ttfbValues).avg.toFixed(0)}ms` : 'N/A',
       'TTFB Min': ttfbValues.length ? `${stats(ttfbValues).min.toFixed(0)}ms` : 'N/A',
       'TTFB Max': ttfbValues.length ? `${stats(ttfbValues).max.toFixed(0)}ms` : 'N/A',
@@ -205,7 +206,7 @@ async function main() {
       'TTFT Min': ttftValues.length ? `${stats(ttftValues).min.toFixed(0)}ms` : 'N/A',
       'TTFT Max': ttftValues.length ? `${stats(ttftValues).max.toFixed(0)}ms` : 'N/A',
       'Token Type': [...new Set(runs.filter(r => r.firstTokenType).map(r => r.firstTokenType))].join(','),
-      Errors: errors,
+      'Errors': errors,
       'Total Time Avg': runs.length ? `${(runs.reduce((s, r) => s + (r.finishTime || 0), 0) / runs.length).toFixed(0)}ms` : 'N/A',
     })
   }
@@ -236,7 +237,8 @@ async function main() {
     for (const run of results[backend]) {
       if (run.error) {
         console.log(`  Run ${run.iteration}: ERROR - ${run.error}`)
-      } else {
+      }
+      else {
         console.log(`  Run ${run.iteration}: TTFB=${run.ttfb?.toFixed(0) || 'N/A'}ms  TTFT=${run.ttft?.toFixed(0) || 'N/A'}ms  type=${run.firstTokenType || 'N/A'}  tools=${run.toolCallCount}  total=${run.finishTime?.toFixed(0)}ms`)
       }
     }
