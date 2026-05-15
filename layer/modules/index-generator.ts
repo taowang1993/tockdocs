@@ -7,10 +7,13 @@ import {
   getIndexStorageKey,
   TOCKDOCS_INDEX_ASSET_BASE_NAME,
 } from '../server/utils/index-generator'
+import { buildAllSearchIndexAssets } from '../server/utils/search-index-generator'
+import { TOCKDOCS_SEARCH_INDEX_ASSET_BASE_NAME } from '../server/utils/search-index'
 import type { TockDocsPublicRuntimeConfig } from '../utils/docs'
 
 const log = logger.withTag('TockDocs')
 const INDEX_OUTPUT_DIR = join('.data', 'index')
+const SEARCH_INDEX_OUTPUT_DIR = join('.data', 'search')
 
 export default defineNuxtModule({
   meta: {
@@ -19,6 +22,7 @@ export default defineNuxtModule({
   async setup(_options, nuxt) {
     const { resolve } = createResolver(import.meta.url)
     const outputDir = join(nuxt.options.rootDir, INDEX_OUTPUT_DIR)
+    const searchOutputDir = join(nuxt.options.rootDir, SEARCH_INDEX_OUTPUT_DIR)
     const onNitroConfig = nuxt.hook as (name: 'nitro:config', cb: (nitroConfig: NitroConfig) => void) => void
 
     onNitroConfig('nitro:config', (nitroConfig) => {
@@ -29,6 +33,14 @@ export default defineNuxtModule({
           baseName: TOCKDOCS_INDEX_ASSET_BASE_NAME,
           dir: outputDir,
           pattern: '**/*.md',
+        })
+      }
+
+      if (!nitroConfig.serverAssets.some(asset => asset?.baseName === TOCKDOCS_SEARCH_INDEX_ASSET_BASE_NAME)) {
+        nitroConfig.serverAssets.push({
+          baseName: TOCKDOCS_SEARCH_INDEX_ASSET_BASE_NAME,
+          dir: searchOutputDir,
+          pattern: '**/*.json',
         })
       }
     })
@@ -69,6 +81,27 @@ export default defineNuxtModule({
     }
     catch (error) {
       log.warn(`Failed to generate INDEX.md files: ${error instanceof Error ? error.message : String(error)}`)
+    }
+
+    try {
+      await rm(searchOutputDir, { recursive: true, force: true })
+      await mkdir(searchOutputDir, { recursive: true })
+
+      const searchAssets = await buildAllSearchIndexAssets(nuxt.options.rootDir, publicConfig, { siteName })
+
+      await Promise.all(searchAssets.map(async ({ storageKey, asset }) => {
+        const filePath = join(searchOutputDir, storageKey)
+        await mkdir(dirname(filePath), { recursive: true })
+        await writeFile(filePath, JSON.stringify(asset), 'utf8')
+      }))
+
+      if (searchAssets.length > 0) {
+        const uniqueDocumentCount = new Set(searchAssets.flatMap(searchAsset => searchAsset.asset.documents.map(document => document.id))).size
+        log.info(`Generated ${searchAssets.length} Search Index file${searchAssets.length === 1 ? '' : 's'} (${uniqueDocumentCount} page${uniqueDocumentCount === 1 ? '' : 's'} indexed)`)
+      }
+    }
+    catch (error) {
+      log.warn(`Failed to generate search index files: ${error instanceof Error ? error.message : String(error)}`)
     }
   },
 })

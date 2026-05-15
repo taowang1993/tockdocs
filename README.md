@@ -28,7 +28,7 @@ Measured in a real browser (Chromium, Playwright, full Vue hydration) with DeepS
 | Backend | English KB | Chinese KB | Average  |
 | ------- | ---------- | ---------- | -------- |
 | INDEX   | 4,966ms    | 4,424ms    | 4,695ms  |
-| MCP     | 7,695ms    | 8,592ms    | 8,144ms  |
+| MCP     | 11,042ms   | 12,174ms   | 11,608ms |
 | GitFS   | 12,642ms   | 13,860ms   | 13,251ms |
 
 **Time to First Visual Feedback** - Enter key → tool indicator/source appearing:
@@ -36,8 +36,19 @@ Measured in a real browser (Chromium, Playwright, full Vue hydration) with DeepS
 | Backend | English KB | Chinese KB | Average |
 | ------- | ---------- | ---------- | ------- |
 | INDEX   | 1,621ms    | 4,420ms    | 3,021ms |
-| MCP     | 1,491ms    | 4,673ms    | 3,082ms |
+| MCP     | 4,052ms    | 4,796ms    | 4,424ms |
 | GitFS   | 1,681ms    | 5,059ms    | 3,370ms |
+
+### Server-Side Timing Breakdown (MCP, English KB)
+
+Measured from server logs on a cold request (DeepSeek `deepseek-v4-pro`):
+
+```text
+MCP:    |request start|──4.1s──|search-pages|──4.0s──|get-page|──3.2s──|ANSWER text|
+                         └─ Model decides to search ─┘  └─ Model decides to fetch ─┘
+```
+
+MCP latency is **model-bound**: each tool-call decision costs a full model round-trip (~4s with `deepseek-v4-pro`). The search index itself is pre-built at build time and loads instantly (no cold-start penalty).
 
 ### Test Flow
 
@@ -45,7 +56,7 @@ Measured in a real browser (Chromium, Playwright, full Vue hydration) with DeepS
 INDEX:  |Enter|──1.6s──|sources appear|──3.3s──|ANSWER text|
                         └─ get-page ─┘   └─ LLM generates ─┘
 
-MCP:    |Enter|──1.5s──|search result|──2.0s──|page fetched|──4.2s──|ANSWER text|
+MCP:    |Enter|──4.1s──|search result|──4.0s──|page fetched|──3.2s──|ANSWER text|
                         └ search-pages ┘       └─ get-page ─┘  └─ LLM ─┘
 
 GitFS:  |Enter|──1.7s──|rg result|──bash──|cat result|──bash──|...──|ANSWER text|
@@ -54,7 +65,7 @@ GitFS:  |Enter|──1.7s──|rg result|──bash──|cat result|──bash
 
 **INDEX** injects a pre-generated page catalogue into the system prompt. The model picks the right page and calls `get-page` directly — one tool call, one round trip, then the answer.
 
-**MCP** adds a search step (`search-pages` → `get-page`), which costs a second model round-trip.
+**MCP** adds a search step (`search-pages` → `get-page`), which costs a second model round-trip. The search index is pre-built at build time and shipped as Nitro server assets, so there is no runtime index-build penalty.
 
 **GitFS** gives the model raw filesystem access (`rg` / `cat` / `ls`), but the model explores iteratively across 3–8 bash calls before answering.
 

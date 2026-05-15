@@ -47,6 +47,10 @@ export interface BuiltIndexDocument {
   content: string
 }
 
+export interface CollectedIndexSourcePage extends IndexPage {
+  content: string
+}
+
 function titleize(value: string) {
   return value
     .split(/[-_]+/g)
@@ -190,7 +194,7 @@ async function listMarkdownFiles(dir: string): Promise<string[]> {
   return files
 }
 
-async function collectIndexPages(spec: IndexBuildSpec): Promise<IndexPage[]> {
+export async function collectIndexSourcePages(spec: IndexBuildSpec): Promise<CollectedIndexSourcePage[]> {
   const files = await listMarkdownFiles(spec.sourceDir)
   const excluded = new Set((spec.excludeRelativePaths || []).map(normalizeRelativePath))
   const pages = await Promise.all(files.map(async (filePath) => {
@@ -208,17 +212,26 @@ async function collectIndexPages(spec: IndexBuildSpec): Promise<IndexPage[]> {
       : getFirstHeading(content)
         || deriveTitleFromRelativePath(relativePath)
 
-    const page: IndexPage = {
+    const description = normalizeDescription(frontmatter.description)
+    const page: CollectedIndexSourcePage = {
       title,
       path: pagePath,
-      description: normalizeDescription(frontmatter.description),
       url: buildMarkdownAliasPath(pagePath),
+      content,
+    }
+
+    if (description) {
+      page.description = description
     }
 
     return page
   }))
 
-  return pages.filter((page): page is IndexPage => page !== null)
+  return pages.filter((page): page is CollectedIndexSourcePage => page !== null)
+}
+
+async function collectIndexPages(spec: IndexBuildSpec): Promise<IndexPage[]> {
+  return (await collectIndexSourcePages(spec)).map(({ content: _content, ...page }) => page)
 }
 
 export function generateIndex(scopeTitle: string, locale: string, pages: IndexPage[]) {

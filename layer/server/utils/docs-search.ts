@@ -1,6 +1,4 @@
-import { Document } from 'flexsearch'
 import Fuse from 'fuse.js'
-import type { IFuseOptions } from 'fuse.js'
 import { queryCollection } from '@nuxt/content/server'
 import type { Collections } from '@nuxt/content'
 import type { H3Event } from 'h3'
@@ -13,21 +11,22 @@ import {
   buildSearchExcerpt,
   hasScriptWithoutWordBoundaries,
   scoreCandidate,
-  scriptBigrams,
 } from './docs-search-helpers'
-
-type SearchIndexDocument = {
-  id: string
-  path: string
-  kb: string
-  locale: string
-  title: string
-  description: string
-  headings: string
-  pathTokens: string
-  content: string
-  rawContent: string
-}
+import {
+  DEV_SEARCH_INDEX_TTL_MS,
+  SEARCH_INDEX_TTL_MS,
+  TOCKDOCS_SEARCH_INDEX_ASSET_BASE_NAME,
+  createDocsSearchIndex,
+  fuseOptions,
+  getSearchIndexCacheKey,
+  getSearchIndexStorageCandidates,
+  parseDocsSearchIndexAsset,
+  restoreDocsSearchIndex,
+  toSearchIndexDocument,
+  type DocsSearchIndex,
+  type DocsSearchScope,
+  type SearchIndexDocument,
+} from './search-index'
 
 type SearchResultCandidate = {
   doc: SearchIndexDocument
@@ -46,78 +45,14 @@ export type TockDocsSearchResult = {
   excerpt: string
 }
 
-type DocsSearchIndex = {
-  flex: Document<SearchIndexDocument>
-  fuse: Fuse<SearchIndexDocument>
-  documents: SearchIndexDocument[]
-  byId: Map<string, SearchIndexDocument>
-}
-
 const FLEXSEARCH_LIMIT_MULTIPLIER = 6
 const FLEXSEARCH_FALLBACK_MIN_RESULTS = 3
-// The document content never changes at runtime — page edits require a
-// rebuild. Cache the search index for the server's lifetime rather than
-// rebuilding it every 60s (prod) / 10s (dev) with 60+ HTTP round-trips.
-const SEARCH_INDEX_TTL_MS = Number.POSITIVE_INFINITY
-const DEV_SEARCH_INDEX_TTL_MS = Number.POSITIVE_INFINITY
-
-const fuseOptions: IFuseOptions<SearchIndexDocument> = {
-  includeScore: true,
-  ignoreLocation: true,
-  threshold: 0.35,
-  minMatchCharLength: 2,
-  keys: [
-    { name: 'title', weight: 0.36 },
-    { name: 'headings', weight: 0.24 },
-    { name: 'pathTokens', weight: 0.16 },
-    { name: 'description', weight: 0.14 },
-    { name: 'content', weight: 0.1 },
-  ],
-}
 
 type CacheEntry = { promise: Promise<DocsSearchIndex>, builtAt: number }
 const docsSearchCache = new Map<string, CacheEntry>()
 
-function getCacheKey(scope?: { kb?: string, locale?: string }): string {
-  if (!scope?.kb) return '__unscoped__'
-  return `${scope.kb}:${scope.locale || '__all_locales__'}`
-}
-
 function logDocsSearch(step: string, data: Record<string, unknown>) {
   console.info(`[tockdocs-docs-search] ${JSON.stringify({ step, ...data })}`)
-}
-
-function stripFrontmatter(markdown: string) {
-  const normalized = markdown.replace(/\r\n/g, '\n')
-
-  if (!normalized.startsWith('---\n')) {
-    return normalized.trim()
-  }
-
-  const endOfFrontmatter = normalized.indexOf('\n---\n', 4)
-  if (endOfFrontmatter === -1) {
-    return normalized.trim()
-  }
-
-  return normalized.slice(endOfFrontmatter + 5).replace(/^\n+/, '').trim()
-}
-
-function extractHeadings(markdown: string) {
-  return markdown
-    .replace(/\r\n/g, '\n')
-    .split('\n')
-    .filter(line => /^#{1,6}\s/.test(line))
-    .map(line => line.replace(/^#{1,6}\s+/, '').trim())
-    .filter(Boolean)
-    .join('\n')
-}
-
-function getPathTokens(path: string) {
-  return path
-    .split('/')
-    .filter(Boolean)
-    .map(segment => segment.replace(/[-_]+/g, ' '))
-    .join(' ')
 }
 
 function getOrigin(event: H3Event) {
@@ -168,7 +103,7 @@ function normalizeFlexResults(rawResults: unknown, byId: Map<string, SearchIndex
 
 function getCollectionDescriptors(
   event: H3Event,
-  scope?: { kb?: string, locale?: string },
+  scope?: DocsSearchScope,
 ) {
   const config = useRuntimeConfig(event).public as Parameters<typeof getDocsMode>[0]
   const mode = getDocsMode(config)
@@ -176,8 +111,6 @@ function getCollectionDescriptors(
   if (mode === 'kb') {
     const knowledgeBases = getKnowledgeBases(config)
 
-    // When scoped to a specific KB, only index that KB's collections.
-    // This cuts index-build time from ~12s to ~1s for scoped requests.
     if (scope?.kb) {
       const matchedKb = knowledgeBases.find(kb => kb.id === scope.kb)
       if (matchedKb) {
@@ -223,33 +156,28 @@ async function getCollectionDocuments(event: H3Event, descriptor: { collectionNa
     .filter(page => isSearchableContentPath(page.path || ''))
 
   return Promise.all(pages.map(async (page) => {
+    const pagePath = page.path || ''
     let markdown = ''
 
     try {
-      markdown = await event.$fetch<string>(buildSourceContentPath(page.path, page.extension || undefined))
+      markdown = await event.$fetch<string>(buildSourceContentPath(pagePath, page.extension || undefined))
     }
     catch {
       markdown = [page.title, page.description].filter(Boolean).join('\n\n')
     }
 
-    const rawContent = stripFrontmatter(markdown)
-
-    return {
-      id: page.path,
-      path: page.path,
-      kb: descriptor.kb || '',
-      locale: descriptor.locale || '',
-      title: page.title || page.path,
+    return toSearchIndexDocument({
+      path: pagePath,
+      kb: descriptor.kb,
+      locale: descriptor.locale,
+      title: page.title || pagePath,
       description: page.description || '',
-      headings: extractHeadings(rawContent),
-      pathTokens: getPathTokens(page.path),
-      rawContent,
-      content: [page.title, page.description, rawContent].filter(Boolean).join('\n\n'),
-    } satisfies SearchIndexDocument
+      markdown,
+    })
   }))
 }
 
-async function createDocsSearch(event: H3Event, scope?: { kb?: string, locale?: string }): Promise<DocsSearchIndex> {
+async function createDocsSearch(event: H3Event, scope?: DocsSearchScope): Promise<DocsSearchIndex> {
   const startedAt = performance.now()
   const descriptors = getCollectionDescriptors(event, scope)
 
@@ -257,72 +185,74 @@ async function createDocsSearch(event: H3Event, scope?: { kb?: string, locale?: 
 
   logDocsSearch('build_index', {
     requestPath: getRequestURL(event).pathname,
+    source: 'runtime',
     docCount: documents.length,
     collections: descriptors.map(descriptor => descriptor.collectionName),
     durationMs: Number((performance.now() - startedAt).toFixed(1)),
   })
 
-  const flex = new Document<SearchIndexDocument>({
-    document: {
-      id: 'id',
-      index: ['title', 'description', 'headings', 'pathTokens', 'content'],
-      store: true,
-    },
-    tokenize: 'forward',
-    // Pre-tokenize CJK and other scripts without word boundaries into
-    // overlapping bigrams so FlexSearch's forward tokenizer can index
-    // them as searchable units. Latin text passes through unchanged.
-    // Without this, every non-Latin query falls back to Fuse.js — see
-    // GitHub issues #51, #112, #137, #207, #316 on nextapps-de/flexsearch.
-    encode: (str: string) => {
-      if (!hasScriptWithoutWordBoundaries(str)) {
-        return str.split(/\s+/)
-      }
-      // Split on whitespace first so each CJK term is bigramified
-      // independently. Otherwise "硫酸 化学式" becomes one concatenated
-      // string and cross-boundary bigrams ("酸化") dilute the index.
-      const tokens = str.split(/\s+/)
-      const result: string[] = []
-      for (const token of tokens) {
-        if (hasScriptWithoutWordBoundaries(token)) {
-          result.push(...scriptBigrams(token))
-        }
-        else {
-          result.push(token)
-        }
-      }
-      return result
-    },
-  })
-
-  for (const document of documents) {
-    flex.add(document)
-  }
-
-  return {
-    flex,
-    fuse: new Fuse(documents, fuseOptions),
-    documents,
-    byId: new Map(documents.map(document => [document.id, document])),
-  }
+  return createDocsSearchIndex(documents)
 }
 
-async function getDocsSearch(event: H3Event, scope?: { kb?: string, locale?: string }) {
+async function loadStoredDocsSearch(event: H3Event, scope?: DocsSearchScope): Promise<DocsSearchIndex | null> {
+  const storage = useStorage(`assets:${TOCKDOCS_SEARCH_INDEX_ASSET_BASE_NAME}`)
+
+  for (const storageKey of getSearchIndexStorageCandidates(scope)) {
+    const stored = await storage.getItemRaw<string | Uint8Array | Buffer>(storageKey)
+
+    if (stored == null) {
+      continue
+    }
+
+    const asset = parseDocsSearchIndexAsset(stored)
+
+    if (!asset) {
+      logDocsSearch('load_index_asset_failed', {
+        requestPath: getRequestURL(event).pathname,
+        storageKey,
+        reason: 'invalid asset payload',
+      })
+      continue
+    }
+
+    const index = restoreDocsSearchIndex(asset)
+
+    logDocsSearch('load_index_asset', {
+      requestPath: getRequestURL(event).pathname,
+      storageKey,
+      docCount: index.documents.length,
+    })
+
+    return index
+  }
+
+  return null
+}
+
+async function getDocsSearch(event: H3Event, scope?: DocsSearchScope) {
   const ttl = import.meta.dev ? DEV_SEARCH_INDEX_TTL_MS : SEARCH_INDEX_TTL_MS
-  const key = getCacheKey(scope)
+  const key = getSearchIndexCacheKey(scope)
   const entry = docsSearchCache.get(key)
 
   if (entry && (performance.now() - entry.builtAt) < ttl) {
     return entry.promise
   }
 
-  const promise = createDocsSearch(event, scope).then((index) => {
+  const promise = (async () => {
+    const prebuilt = await loadStoredDocsSearch(event, scope)
+    if (prebuilt) {
+      return prebuilt
+    }
+
+    return createDocsSearch(event, scope)
+  })().then((index) => {
     docsSearchCache.set(key, { promise, builtAt: performance.now() })
     return index
   }).catch((error) => {
     docsSearchCache.delete(key)
     throw error
   })
+
   docsSearchCache.set(key, { promise, builtAt: 0 })
   return promise
 }
@@ -418,10 +348,6 @@ export async function searchDocs(event: H3Event, {
     }
   }
 
-  // Lenient fallback: when the normal search returns nothing, try again
-  // with a more forgiving Fuse configuration. This helps with long natural-
-  // language queries in any script (CJK, Korean, Japanese, Vietnamese, etc.)
-  // where the standard threshold is too strict for question-length input.
   if (candidates.size === 0) {
     usedFuseFallback = true
     const lenientDocuments = filteredDocuments.length > 0 ? filteredDocuments : search.documents
@@ -434,10 +360,6 @@ export async function searchDocs(event: H3Event, {
 
     let lenientResults = lenientFuse.search(trimmedQuery, { limit: overfetchLimit })
 
-    // Second attempt: when the full query returns nothing (common with
-    // mixed-script queries like "硫酸 化学 H2SO4"), strip to only non-Latin
-    // script characters and try again. The non-Latin portion carries the
-    // core semantic meaning in CJK / Korean / Japanese queries.
     if (lenientResults.length === 0 && hasScriptWithoutWordBoundaries(trimmedQuery)) {
       const scriptOnlyQuery = [...trimmedQuery]
         .filter(c => WITHOUT_WORD_BOUNDARIES.test(c))
