@@ -139,7 +139,7 @@ The local dev launcher uses port **4987** with `strictPort: true`; it does not f
 ## Development Guidelines
 
 - Do not run `pnpm dev`, `nuxt dev`, or other long-running app processes without user's permission.
-- Read `architecture.md` and `assistant.md` before reading anything else and writng any code.
+- Read `architecture.md` and `assistant.md` before reading anything else or writng any code.
 - Read `deploy.md`, before deploying to Vercel.
 
 ### Git

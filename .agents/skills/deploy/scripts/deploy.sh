@@ -34,7 +34,7 @@ echo "    Caches cleaned."
 echo ""
 echo "==> Building TockDocs for Vercel (NITRO_PRESET=vercel, NUXT_SITE_URL=$NUXT_SITE_URL)..."
 cd "$DOCS_DIR"
-NUXT_SITE_URL="$NUXT_SITE_URL" NITRO_PRESET=vercel NODE_OPTIONS=--max-old-space-size=6144 npx nuxt build
+NUXT_SITE_URL="$NUXT_SITE_URL" NITRO_PRESET=vercel NODE_OPTIONS=--max-old-space-size=10240 npx nuxt build
 
 echo ""
 echo "==> Validating build output..."

@@ -118,6 +118,8 @@ function closeContentSearch() {
       <NuxtLoadingIndicator color="var(--ui-primary)" />
     </ClientOnly>
 
+    <AgentDocsHint />
+
     <div
       :class="[
         'will-change-[margin-right]',
@@ -132,8 +134,6 @@ function closeContentSearch() {
       >
         <AppHeader />
       </div>
-
-      <AgentDocsHint />
 
       <NuxtLayout>
         <NuxtPage />

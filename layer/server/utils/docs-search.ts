@@ -13,6 +13,7 @@ import {
   buildSearchExcerpt,
   hasScriptWithoutWordBoundaries,
   scoreCandidate,
+  scriptBigrams,
 } from './docs-search-helpers'
 
 type SearchIndexDocument = {
@@ -54,8 +55,11 @@ type DocsSearchIndex = {
 
 const FLEXSEARCH_LIMIT_MULTIPLIER = 6
 const FLEXSEARCH_FALLBACK_MIN_RESULTS = 3
-const SEARCH_INDEX_TTL_MS = 60_000
-const DEV_SEARCH_INDEX_TTL_MS = 10_000
+// The document content never changes at runtime — page edits require a
+// rebuild. Cache the search index for the server's lifetime rather than
+// rebuilding it every 60s (prod) / 10s (dev) with 60+ HTTP round-trips.
+const SEARCH_INDEX_TTL_MS = Number.POSITIVE_INFINITY
+const DEV_SEARCH_INDEX_TTL_MS = Number.POSITIVE_INFINITY
 
 const fuseOptions: IFuseOptions<SearchIndexDocument> = {
   includeScore: true,
@@ -265,6 +269,30 @@ async function createDocsSearch(event: H3Event, scope?: { kb?: string, locale?: 
       store: true,
     },
     tokenize: 'forward',
+    // Pre-tokenize CJK and other scripts without word boundaries into
+    // overlapping bigrams so FlexSearch's forward tokenizer can index
+    // them as searchable units. Latin text passes through unchanged.
+    // Without this, every non-Latin query falls back to Fuse.js — see
+    // GitHub issues #51, #112, #137, #207, #316 on nextapps-de/flexsearch.
+    encode: (str: string) => {
+      if (!hasScriptWithoutWordBoundaries(str)) {
+        return str.split(/\s+/)
+      }
+      // Split on whitespace first so each CJK term is bigramified
+      // independently. Otherwise "硫酸 化学式" becomes one concatenated
+      // string and cross-boundary bigrams ("酸化") dilute the index.
+      const tokens = str.split(/\s+/)
+      const result: string[] = []
+      for (const token of tokens) {
+        if (hasScriptWithoutWordBoundaries(token)) {
+          result.push(...scriptBigrams(token))
+        }
+        else {
+          result.push(token)
+        }
+      }
+      return result
+    },
   })
 
   for (const document of documents) {
