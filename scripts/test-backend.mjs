@@ -7,8 +7,8 @@ async function runOne(label) {
     messages: [{
       role: 'user',
       content: QUERY,
-      parts: [{ type: 'text', text: QUERY }]
-    }]
+      parts: [{ type: 'text', text: QUERY }],
+    }],
   })
 
   const start = performance.now()
@@ -19,9 +19,9 @@ async function runOne(label) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Referer': `${BASE_URL}/docs/manual/en`
+        'Referer': `${BASE_URL}/docs/manual/en`,
       },
-      body
+      body,
     })
 
     if (!res.ok) {
@@ -55,10 +55,14 @@ async function runOne(label) {
             firstType = d.type
           }
           if (d.type === 'tool-input-start') tools++
-        } catch {}
+        }
+        catch {
+          // Ignore malformed SSE chunks and keep measuring the stream.
+        }
       }
     }
-  } catch (e) {
+  }
+  catch (e) {
     error = e.message
   }
 

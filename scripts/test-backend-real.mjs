@@ -6,12 +6,12 @@ async function runOne(backend, label, query, kb, locale) {
     messages: [{
       role: 'user',
       content: query,
-      parts: [{ type: 'text', text: query }]
-    }]
+      parts: [{ type: 'text', text: query }],
+    }],
   })
 
   const referer = kb ? `${BASE_URL}/docs/${kb}/${locale}` : `${BASE_URL}/docs/manual/en`
-  
+
   const start = performance.now()
   let ttfb = null, ttft = null, firstType = null, tools = 0, chunks = 0, error = null
 
@@ -20,9 +20,9 @@ async function runOne(backend, label, query, kb, locale) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Referer': referer
+        'Referer': referer,
       },
-      body
+      body,
     })
 
     if (!res.ok) {
@@ -56,10 +56,14 @@ async function runOne(backend, label, query, kb, locale) {
             firstType = d.type
           }
           if (d.type === 'tool-input-start') tools++
-        } catch {}
+        }
+        catch {
+          // Ignore malformed SSE chunks and keep measuring the stream.
+        }
       }
     }
-  } catch (e) {
+  }
+  catch (e) {
     error = e.message
   }
 
@@ -78,14 +82,14 @@ async function main() {
       name: 'Parser KB (LandingAI ADE vs AWS Textract)',
       query: 'How does LandingAI ADE compare to AWS Textract for complex table extraction and form processing in enterprise document workflows?',
       kb: 'parser',
-      locale: 'en'
+      locale: 'en',
     },
     {
       name: 'Manual KB (MCP server setup)',
       query: 'How do I set up the built-in MCP server in TockDocs and what tools does it expose for AI agents to search documentation?',
       kb: 'manual',
-      locale: 'en'
-    }
+      locale: 'en',
+    },
   ]
 
   console.log(`======================================================`)
@@ -107,7 +111,7 @@ async function main() {
       const avg = ttftVals.reduce((a, b) => a + b, 0) / ttftVals.length
       const min = Math.min(...ttftVals)
       const max = Math.max(...ttftVals)
-      console.log(`  TTFT: avg=${avg.toFixed(0)}ms  min=${min.toFixed(0)}ms  max=${max.toFixed(0)}ms  tools=${runs.map(r=>r.tools).join(',')}`)
+      console.log(`  TTFT: avg=${avg.toFixed(0)}ms  min=${min.toFixed(0)}ms  max=${max.toFixed(0)}ms  tools=${runs.map(r => r.tools).join(',')}`)
     }
     console.log()
   }

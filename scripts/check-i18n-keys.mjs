@@ -28,7 +28,8 @@ const CONFIG_FILES = [
 ]
 
 const VALID_EXTENSIONS = new Set(['.vue', '.ts'])
-const I18N_KEY_RE = /^[a-z]+\.[a-z][a-z.]*[a-z]$/
+const I18N_KEY_RE = /^[a-z]+\.[A-Za-z][A-Za-z0-9-]*(?:\.[A-Za-z][A-Za-z0-9-]*)*$/
+const I18N_KEY_LITERAL_RE = /['"]([a-z]+\.[A-Za-z][A-Za-z0-9-]*(?:\.[A-Za-z][A-Za-z0-9-]*)*)['"]/g
 
 // ---- walk directories ----
 
@@ -67,7 +68,7 @@ function extractKeysFromSource() {
     if (!existsSync(configFile)) continue
     const content = readFileSync(configFile, 'utf8')
     // Match string literals that look like dot-separated i18n keys
-    for (const m of content.matchAll(/['"]([a-z]+\.[a-z][a-z.]*[a-z])['"]/g)) {
+    for (const m of content.matchAll(I18N_KEY_LITERAL_RE)) {
       if (I18N_KEY_RE.test(m[1])) {
         keys.add(m[1])
       }
